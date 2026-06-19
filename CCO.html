@@ -3,85 +3,155 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FIRST MILE - Desempenho</title>
+  <title>FIRST MILE - Performance CCO Premium</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
     :root {
-      --ml-yellow: #FFF159;
-      --ml-red: #F23D4F;
-      --ml-green: #00A650;
-      --ml-blue: #3483FA;
-      --bg-page: #F0F2F5;
-      --dark-nav: #2D3238;
-      --text-main: #333333;
-      --text-muted: #888888;
-      --border-light: #EAEAEA;
-      --shadow-card: 0 4px 12px rgba(0,0,0,0.05);
-      --shadow-hover: 0 8px 20px rgba(0,0,0,0.08);
-      --shadow-modal: 0 20px 40px rgba(0,0,0,0.2);
+      /* Paleta Premium High-End Dark */
+      --ml-yellow: #FFE600;
+      --ml-yellow-dim: rgba(255, 230, 0, 0.15);
+      --ml-yellow-glow: rgba(255, 230, 0, 0.4);
+      
+      --bg-base: #06080D;        
+      --glass-bg: rgba(16, 21, 33, 0.65); 
+      --glass-border: rgba(255, 255, 255, 0.06);
+      --glass-highlight: rgba(255, 255, 255, 0.1);
+      
+      --text-1: #FFFFFF;        
+      --text-2: #E2E8F0;        
+      --text-3: #94A3B8;        
+      --text-4: #475569;        
+      
+      /* Status Neons com saturação precisa */
+      --neon-blue: #00E1FF;
+      --neon-blue-dim: rgba(0, 225, 255, 0.12);
+      --neon-green: #00FF88;
+      --neon-green-dim: rgba(0, 255, 136, 0.12);
+      --neon-amber: #FFB000;
+      --neon-amber-dim: rgba(255, 176, 0, 0.12);
+      --neon-red: #FF3366;
+      --neon-red-dim: rgba(255, 51, 102, 0.12);
+      
+      /* Sombras Volumétricas */
+      --shadow-float: 0 20px 40px rgba(0, 0, 0, 0.6);
+      --shadow-inner: inset 0 1px 1px rgba(255, 255, 255, 0.05);
+      --shadow-glow: 0 0 20px var(--ml-yellow-dim);
+      
+      --radius-md: 8px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
       --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-      --ml-red-soft: rgba(242,61,79,0.75);
-      --ml-yellow-hover: #ffe84d;
-      --text-dark: #0f172a;
-      --dark-blue: #0b1220;
-      --chat-blue: #1d4ed8;
-      --shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
-      --bg-body: #F8FAFC;
-      --border-soft: #E2E8F0;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Public Sans', sans-serif; }
-    body { background-color: var(--bg-page); color: var(--text-main); font-size: 12px; overflow-x: hidden; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    
+    html, body {
+        min-height: 100%;
+        background-color: var(--bg-base);
+    }
+    
+    body {
+        /* Efeito de Malha Topográfica/Radar no Fundo */
+        background-image: 
+            radial-gradient(circle at 50% 0%, rgba(25, 35, 55, 0.6) 0%, transparent 60%),
+            linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        background-size: 100% 100%, 40px 40px, 40px 40px;
+        background-position: center top;
+        background-attachment: fixed;
+        color: var(--text-2);
+        font-size: 12px;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+    }
+
     ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+    ::-webkit-scrollbar-track { background: var(--bg-base); }
+    ::-webkit-scrollbar-thumb { background: var(--text-4); border-radius: 999px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-3); }
 
     /* ================= HEADER & NAV ================= */
-    .top-header { background: var(--ml-yellow); padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #E6D800; position: relative; z-index: 1000; }
-    .logo-area h1 { font-size: 19px; font-weight: 900; color: #111; letter-spacing: -0.5px; text-transform: uppercase; margin-bottom: 2px; }
-    .logo-area p { font-size: 10px; font-weight: 700; color: rgba(0,0,0,0.6); text-transform: uppercase; }
+    .top-header { 
+        background: rgba(6, 8, 13, 0.7); 
+        backdrop-filter: blur(24px); 
+        -webkit-backdrop-filter: blur(24px);
+        padding: 14px 30px; 
+        display: flex; justify-content: space-between; align-items: center; 
+        border-bottom: 1px solid var(--glass-border); 
+        position: relative; z-index: 1000;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .top-header::before {
+        content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+        background: linear-gradient(90deg, var(--ml-yellow), transparent);
+    }
+
+    .logo-area h1 { font-size: 18px; font-weight: 900; color: var(--text-1); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2px; }
+    .logo-area p { font-size: 10px; font-weight: 700; color: var(--ml-yellow); text-transform: uppercase; letter-spacing: 2px; display:flex; align-items:center; gap:6px;}
+    
+    .pulse-dot { width: 6px; height: 6px; background-color: var(--neon-green); border-radius: 50%; box-shadow: 0 0 10px var(--neon-green); animation: pulse 2s infinite; }
+    @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1); } }
 
     .header-controls { display: flex; gap: 15px; align-items: flex-end; }
     .ctrl-box { display: flex; flex-direction: column; gap: 4px; position: relative; }
-    .ctrl-box label { font-size: 9px; font-weight: 800; color: rgba(0,0,0,0.5); text-transform: uppercase; }
-    .ctrl-input { background: white; border-radius: 6px; padding: 0 16px; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: space-between; gap: 10px; cursor: pointer; height: 36px; border: 1px solid transparent; transition: 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.05); user-select: none; }
-    .ctrl-input:hover { border-color: #CBD5E1; }
+    .ctrl-box label { font-size: 9px; font-weight: 800; color: var(--text-3); text-transform: uppercase; letter-spacing:1px; }
+    .ctrl-input { 
+        background: rgba(0,0,0,0.3); border-radius: var(--radius-md); padding: 0 16px; 
+        font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: space-between; gap: 10px; 
+        cursor: pointer; height: 36px; border: 1px solid var(--glass-border); color:var(--text-1); transition: 0.2s; 
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); user-select: none; 
+    }
+    .ctrl-input:hover { border-color: var(--ml-yellow); background:rgba(255,230,0,0.02); }
 
-    .btn-ai { background: var(--dark-nav); color: var(--ml-yellow); border: none; padding: 0 16px; height: 36px; border-radius: 6px; font-size: 11px; font-weight: 800; display: flex; align-items: center; gap: 8px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
-    .btn-ai:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.25); }
+    .btn-ai { background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, transparent 100%); color: var(--text-1); border: 1px solid var(--glass-highlight); padding: 0 16px; height: 36px; border-radius: var(--radius-md); font-size: 11px; font-weight: 800; display: flex; align-items: center; gap: 8px; cursor: pointer; transition: 0.2s; box-shadow: var(--shadow-inner); text-transform: uppercase; letter-spacing: 1px; }
+    .btn-ai:hover { transform: translateY(-2px); border-color: var(--ml-yellow); color: var(--ml-yellow); box-shadow: 0 10px 20px rgba(0,0,0,0.4), var(--shadow-glow); }
 
-    .btn-refresh { background: rgba(255,255,255,0.5); border: none; width: 36px; height: 36px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: 0.3s; }
-    .btn-refresh:hover { background: white; transform: rotate(15deg); }
+    .btn-refresh { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); width: 36px; height: 36px; border-radius: var(--radius-md); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: 0.3s; color:var(--text-1); }
+    .btn-refresh:hover { background: rgba(255,255,255,0.1); transform: rotate(45deg); color:var(--ml-yellow); border-color:var(--ml-yellow); }
 
-    .update-stamp { position: absolute; top: 12px; right: 30px; font-size: 9px; font-weight: 800; color: rgba(0,0,0,0.6); letter-spacing: 0.5px; text-transform: uppercase; }
+    .update-stamp { position: absolute; top: 12px; right: 30px; font-size: 9px; font-weight: 800; color: var(--text-3); letter-spacing: 1px; text-transform: uppercase; display:flex; align-items:center; gap:6px; }
 
-    .dropdown-menu { position: absolute; top: 100%; left: 0; width: 100%; background: white; border: 1px solid #CBD5E1; box-shadow: var(--shadow-modal); display: none; z-index: 9999; margin-top: 6px; border-radius: 8px; overflow: hidden; animation: scaleUp 0.2s ease; transform-origin: top; }
-    .dropdown-item { padding: 12px 14px; font-size: 11px; font-weight: 700; color: #333; cursor: pointer; border-bottom: 1px solid #F1F5F9; transition: 0.2s; text-align: center; }
-    .dropdown-item:hover { background: #F8FAFC; color: var(--ml-blue); }
-    .dropdown-item.active { background: var(--ml-blue); color: white; }
+    .dropdown-menu { position: absolute; top: 100%; left: 0; width: 100%; background: rgba(16, 21, 33, 0.95); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); box-shadow: var(--shadow-float); display: none; z-index: 9999; margin-top: 6px; border-radius: var(--radius-md); overflow: hidden; animation: scaleUp 0.2s ease; transform-origin: top; }
+    .dropdown-item { padding: 12px 14px; font-size: 11px; font-weight: 700; color: var(--text-2); cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.2s; text-align: center; }
+    .dropdown-item:hover { background: rgba(255,255,255,0.05); color: var(--text-1); }
+    .dropdown-item.active { background: var(--ml-yellow-dim); color: var(--ml-yellow); }
     .dropdown-menu.show { display: block; }
 
-    .main-nav { background: white; padding: 0 30px; display: flex; gap: 4px; border-bottom: 1px solid var(--border-light); height: 50px; align-items: flex-end; }
-    .tab { background: transparent; border: none; padding: 12px 24px; border-radius: 8px 8px 0 0; font-size: 11px; font-weight: 800; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; text-transform: uppercase; margin-bottom: -1px; border-bottom: 3px solid transparent; letter-spacing: 0.5px; }
+    .main-nav { background: rgba(10, 14, 23, 0.8); backdrop-filter: blur(10px); padding: 0 30px; display: flex; gap: 4px; border-bottom: 1px solid var(--glass-border); height: 50px; align-items: flex-end; }
+    .tab { background: transparent; border: none; padding: 12px 24px; border-radius: 8px 8px 0 0; font-size: 11px; font-weight: 800; color: var(--text-4); cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; text-transform: uppercase; margin-bottom: -1px; border-bottom: 3px solid transparent; letter-spacing: 1px; }
     .tab i { font-size: 14px; opacity: 0.7; }
-    .tab:hover { background: #F8FAFC; color: #111; }
-    .tab.active { background: var(--dark-nav); color: white; border-bottom-color: var(--ml-yellow); box-shadow: 0 -2px 10px rgba(0,0,0,0.05); }
-    .tab.active i { color: var(--ml-yellow); opacity: 1; }
+    .tab:hover { background: rgba(255,255,255,0.02); color: var(--text-2); }
+    .tab.active { background: var(--glass-bg); color: var(--text-1); border-bottom-color: var(--ml-yellow); box-shadow: 0 -5px 15px rgba(255,230,0,0.05); }
+    .tab.active i { color: var(--ml-yellow); opacity: 1; text-shadow: 0 0 10px var(--ml-yellow-glow); }
 
     /* ================= FILTROS ================= */
-    .filters-bar { background: var(--bg-body); padding: 16px 30px; display: flex; gap: 16px; border-bottom: 1px solid var(--border-light); align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.02); flex-wrap: wrap; min-height: 85px; }
-    .filter-label { font-size: 11px; font-weight: 800; color: var(--text-muted); display: flex; align-items: center; gap: 8px; width: 120px; letter-spacing: 0.5px; }
+    .filters-bar { background: rgba(6, 8, 13, 0.6); padding: 16px 30px; display: flex; gap: 16px; border-bottom: 1px solid var(--glass-border); align-items: center; flex-wrap: wrap; min-height: 85px; }
+    .filter-label { font-size: 11px; font-weight: 800; color: var(--text-1); display: flex; align-items: center; gap: 8px; width: 120px; letter-spacing: 1px; text-transform:uppercase; }
+    .filter-label i { color: var(--ml-yellow) !important; }
     .filter-box { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 150px; }
-    .filter-box label { font-size: 9px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; }
-    .filter-box select { width: 100%; border: 1px solid var(--border-soft); background: white; padding: 10px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; color: #333; outline: none; transition: 0.2s; cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"); background-position: right 0.5rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em; padding-right: 2.5rem; }
-    .filter-box select:hover { border-color: #94a3b8; }
-    #filters-loading { font-size: 11px; font-weight: 700; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
+    .filter-box label { font-size: 9px; font-weight: 800; color: var(--text-3); text-transform: uppercase; letter-spacing:0.5px;}
+    .filter-box select { 
+        width: 100%; border: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); padding: 10px 12px; 
+        border-radius: var(--radius-md); font-size: 11px; font-weight: 700; color: var(--text-1); outline: none; transition: 0.2s; 
+        cursor: pointer; appearance: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2394a3b8' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"); 
+        background-position: right 0.5rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em; padding-right: 2.5rem; 
+    }
+    .filter-box select:hover, .filter-box select:focus { border-color: var(--ml-yellow); background-color: rgba(255,230,0,0.02); }
+    #filters-loading { font-size: 11px; font-weight: 700; color: var(--text-3); display: flex; align-items: center; gap: 8px; }
     
+    #clearFiltersBtn {
+        background: transparent; border: 1px solid transparent; color: var(--neon-red);
+        padding: 8px 16px; border-radius: var(--radius-md); font-size: 10px; font-weight: 800; 
+        cursor: pointer; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing:1px; transition:0.2s;
+    }
+    #clearFiltersBtn:hover { background: var(--neon-red-dim); border-color: rgba(255,51,102,0.3); }
+
     .content { padding: 30px; max-width: 1800px; margin: 0 auto; }
     .tab-pane { display: none; opacity: 0; transform: translateY(15px); transition: var(--transition-smooth); }
     .tab-pane.active { display: block; opacity: 1; transform: translateY(0); }
@@ -94,14 +164,25 @@
     @media (max-width: 1400px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 768px) { .kpi-grid, .kpi-grid-2, .grid-5 { grid-template-columns: 1fr; } .filters-bar { flex-wrap: wrap; } }
 
-    /* ================= CARDS E DADOS ================= */
-    .card { background: white; border-radius: 12px; padding: 20px 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-light); transition: var(--transition-smooth); display: flex; flex-direction: column; position: relative; gap: 16px; min-width: 0; }
-    .card.clickable-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); border-color: #CBD5E1;}
+    /* ================= CARDS E DADOS PREMIUM ================= */
+    .card { 
+        background: linear-gradient(180deg, rgba(30, 38, 56, 0.4) 0%, rgba(16, 21, 33, 0.6) 100%);
+        border-radius: var(--radius-lg); padding: 20px 24px; 
+        box-shadow: var(--shadow-float), var(--shadow-inner); 
+        border: 1px solid var(--glass-border); transition: var(--transition-smooth); 
+        display: flex; flex-direction: column; position: relative; gap: 16px; min-width: 0; 
+        backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    }
+    .card::before {
+        content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    }
+    .card.clickable-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.2); box-shadow: var(--shadow-float), 0 20px 30px rgba(0,0,0,0.6); }
     .clickable-card { cursor: pointer; }
     
     .card-header { display: flex; flex-direction: column; gap: 4px; }
-    .huge-val { font-size: clamp(28px, 2.5vw, 42px); font-weight: 900; line-height: 1; color: var(--ml-blue); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }
-    .card-label { font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .huge-val { font-size: clamp(28px, 2.5vw, 42px); font-weight: 900; line-height: 1; color: var(--text-1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+    .card-label { font-size: 11px; font-weight: 800; color: var(--text-3); text-transform: uppercase; letter-spacing: 1px; }
     
     .kpi-row { display: flex; align-items: center; justify-content: space-between; height: 100%; gap: 16px;}
     
@@ -109,179 +190,179 @@
     .kpi-chart-box:hover { transform: scale(1.05); }
     
     .kpi-list { list-style: none; display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 0; margin: 0; padding: 0; }
-    .kpi-list li { display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 600; color: #444; padding: 6px 8px; border-radius: 6px; background: var(--bg-body); transition: all 0.2s; border: 1px solid transparent; cursor: pointer;}
-    .kpi-list li:hover { background: #F0F6FF; border-color: #CBD5E1; transform: translateX(2px); }
-    .kpi-list li.active { background: #E0F2FE; border-color: var(--ml-blue); color: var(--ml-blue); font-weight: 800; box-shadow: 0 4px 10px rgba(52, 131, 250, 0.15); transform: translateX(4px); }
+    .kpi-list li { display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 700; color: var(--text-2); padding: 8px 12px; border-radius: var(--radius-md); background: rgba(0,0,0,0.3); transition: all 0.2s; border: 1px solid transparent; cursor: pointer;}
+    .kpi-list li:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); transform: translateX(2px); color:var(--text-1); }
+    .kpi-list li.active { background: var(--neon-blue-dim); border-color: rgba(0,225,255,0.3); color: var(--neon-blue); box-shadow: 0 4px 10px rgba(0, 225, 255, 0.1); transform: translateX(4px); }
     
-    .kpi-list-label { display: flex; align-items: center; gap: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .kpi-list-label { display: flex; align-items: center; gap: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing:0.5px; }
     .kpi-list-values { display: flex; align-items: center; gap: 6px; font-weight: 800; }
     
-    .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex-shrink: 0;}
-    .pct-label { color: var(--text-muted); font-size: 10px; font-weight: 700; width: 44px; text-align: right; font-variant-numeric: tabular-nums;}
+    .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex-shrink: 0; box-shadow: 0 0 8px currentColor;}
+    .pct-label { color: var(--text-4); font-size: 10px; font-weight: 800; width: 44px; text-align: right; font-variant-numeric: tabular-nums;}
     
-    .gps-icon { width: 80px; height: 80px; background: #F0F4FF; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; margin: 0 15px; border: 1px solid #E2E8F0; }
+    .gps-icon { width: 80px; height: 80px; background: rgba(0,0,0,0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; margin: 0 15px; border: 1px solid rgba(255,255,255,0.05); box-shadow: inset 0 0 20px rgba(0,225,255,0.1); }
 
     /* ================= BARRAS DE ATRASO ================= */
-    .atrasos-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid #F8F8F8; }
-    .atrasos-title { display: flex; align-items: center; gap: 10px; font-weight: 900; text-transform: uppercase; font-size: 12px; color: #333; }
-    .atrasos-title i { color: var(--ml-red); border: 2px solid var(--ml-red); padding: 5px; border-radius: 50%; font-size: 14px; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; }
-    .atrasos-header.finalizado .atrasos-title { color: var(--ml-green); }
-    .atrasos-header.finalizado .atrasos-title i { color: var(--ml-green); border-color: var(--ml-green); }
+    .atrasos-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--glass-border); }
+    .atrasos-title { display: flex; align-items: center; gap: 10px; font-weight: 900; text-transform: uppercase; font-size: 12px; color: var(--text-1); letter-spacing:1px; }
+    .atrasos-title i { color: var(--neon-red); border: 1px solid rgba(255,51,102,0.3); background:var(--neon-red-dim); padding: 5px; border-radius: 50%; font-size: 14px; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; box-shadow: 0 0 10px rgba(255,51,102,0.2); }
+    .atrasos-header.finalizado .atrasos-title i { color: var(--neon-amber); border-color: rgba(255,176,0,0.3); background:var(--neon-amber-dim); box-shadow: 0 0 10px rgba(255,176,0,0.2); }
     
-    .badge { background: #F1F5F9; padding: 4px 10px; border-radius: 4px; font-size: 9px; font-weight: 900; color: var(--text-muted); border: 1px solid #E2E8F0; letter-spacing: 0.5px; }
+    .badge { background: rgba(255,255,255,0.05); padding: 6px 12px; border-radius: 999px; font-size: 9px; font-weight: 900; color: var(--text-2); border: 1px solid var(--glass-border); letter-spacing: 1px; }
 
     .delay-list { display: flex; flex-direction: column; gap: 16px; }
     .bar-item { transition: 0.2s; padding: 2px; }
-    .bar-label { display: flex; justify-content: space-between; font-weight: 800; font-size: 10px; color: #555; margin-bottom: 6px; text-transform: uppercase; }
-    .bar-val { font-weight: 900; font-size: 11px; font-variant-numeric: tabular-nums; color: #111; }
-    .rail { height: 4px; background: #F1F5F9; border-radius: 2px; overflow: hidden; }
-    .fill { height: 100%; background: var(--ml-red-soft); width: 0; transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1); border-radius: 2px; }
+    .bar-label { display: flex; justify-content: space-between; font-weight: 800; font-size: 10px; color: var(--text-3); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .bar-val { font-weight: 900; font-size: 11px; font-variant-numeric: tabular-nums; color: var(--text-1); }
+    .rail { height: 6px; background: rgba(0,0,0,0.5); border-radius: 3px; overflow: hidden; box-shadow: inset 0 1px 2px rgba(0,0,0,0.8); }
+    .fill { height: 100%; background: linear-gradient(90deg, var(--neon-red-dim), var(--neon-red)); width: 0; transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1); border-radius: 3px; box-shadow: 0 0 10px var(--neon-red); }
     
-    .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; color: var(--text-muted); font-size: 12px; font-weight: 700; text-align: center; gap: 12px; background: var(--bg-body); border-radius: 12px; border: 1px dashed #CBD5E1; }
-    .empty-state i { font-size: 28px; color: #94A3B8; }
+    .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; color: var(--text-4); font-size: 12px; font-weight: 700; text-align: center; gap: 12px; background: rgba(0,0,0,0.2); border-radius: var(--radius-lg); border: 1px dashed var(--glass-border); letter-spacing: 1px; text-transform: uppercase; }
+    .empty-state i { font-size: 28px; color: var(--text-4); opacity: 0.5; }
 
     /* ================= ÁREA DE DETALHES (TABELA DINÂMICA) ================= */
-    .details-section { background: white; border-radius: 12px; box-shadow: var(--shadow-card); border: 1px solid var(--ml-blue); overflow: hidden; display: none; animation: slideUp 0.3s ease-out; margin-top: 20px; }
-    .details-section.active { display: block; }
+    .details-section { background: var(--glass-bg); backdrop-filter: blur(16px); border-radius: var(--radius-lg); box-shadow: var(--shadow-float); border: 1px solid var(--glass-border); overflow: hidden; display: none; animation: slideUp 0.3s ease-out; margin-top: 20px; }
+    .details-section.active { display: block; border-color: rgba(0,225,255,0.3); box-shadow: 0 0 30px rgba(0,225,255,0.1), var(--shadow-float); }
     @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-    .details-header { background: var(--bg-body); padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-light); }
+    .details-header { background: rgba(0,0,0,0.4); padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass-border); }
     .details-title-group { display: flex; align-items: center; gap: 12px; }
-    .details-title-group i { font-size: 18px; color: var(--ml-blue); }
-    .details-title-group h2 { font-size: 14px; font-weight: 800; color: var(--text-dark); text-transform: uppercase; }
-    .btn-close { background: transparent; border: none; font-size: 18px; color: var(--text-muted); cursor: pointer; transition: 0.2s; }
-    .btn-close:hover { color: var(--ml-red); transform: scale(1.1); }
+    .details-title-group i { font-size: 18px; color: var(--ml-yellow); }
+    .details-title-group h2 { font-size: 13px; font-weight: 900; color: var(--text-1); text-transform: uppercase; letter-spacing: 1px; }
+    .btn-close { background: transparent; border: none; font-size: 18px; color: var(--text-4); cursor: pointer; transition: 0.2s; }
+    .btn-close:hover { color: var(--neon-red); transform: scale(1.2); }
 
     .table-responsive { overflow-x: auto; max-height: 400px; }
     #details-table { width: 100%; border-collapse: collapse; text-align: left; }
-    #details-table th { background: white; padding: 14px 24px; font-size: 10px; text-transform: uppercase; font-weight: 900; color: var(--text-muted); border-bottom: 2px solid var(--border-light); position: sticky; top: 0; z-index: 10; white-space: nowrap; }
-    #details-table td { padding: 14px 24px; border-bottom: 1px solid #F1F5F9; font-size: 11px; font-weight: 600; color: #444; white-space: nowrap; }
-    #details-table tr:hover td { background: #F8FAFC; color: #111; }
+    #details-table th { background: rgba(10, 14, 23, 0.9); padding: 14px 24px; font-size: 10px; text-transform: uppercase; font-weight: 800; color: var(--text-3); border-bottom: 1px solid rgba(255,255,255,0.1); position: sticky; top: 0; z-index: 10; white-space: nowrap; letter-spacing: 1px; }
+    #details-table td { padding: 14px 24px; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 11px; font-weight: 600; color: var(--text-2); white-space: nowrap; }
+    #details-table tr:hover td { background: rgba(255,255,255,0.03); color: var(--text-1); }
     
-    .pagination-bar { padding: 12px 24px; background: white; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-light); }
-    .page-info { font-size: 10px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; }
-    .page-controls button { background: var(--bg-body); border: 1px solid #CBD5E1; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; color: #333; transition: 0.2s; margin-left: 4px; }
-    .page-controls button:hover:not(:disabled) { background: #E2E8F0; }
-    .page-controls button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .pagination-bar { padding: 16px 24px; background: rgba(0,0,0,0.3); display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--glass-border); }
+    .page-info { font-size: 10px; font-weight: 800; color: var(--text-3); text-transform: uppercase; letter-spacing: 1px; }
+    .page-controls button { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 8px 16px; border-radius: var(--radius-md); font-size: 10px; font-weight: 800; cursor: pointer; color: var(--text-2); transition: 0.2s; margin-left: 8px; text-transform:uppercase; letter-spacing:1px;}
+    .page-controls button:hover:not(:disabled) { background: rgba(255,255,255,0.1); color:var(--text-1); border-color:rgba(255,255,255,0.2); }
+    .page-controls button:disabled { opacity: 0.3; cursor: not-allowed; }
 
     /* ================= STATUS BADGES ================= */
-    .status-badge { padding: 4px 8px; border-radius: 6px; font-weight: 800; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .bg-blue { background: #E0F2FE; color: #0284C7; }
-    .bg-green { background: #DCFCE7; color: #16A34A; }
-    .bg-red { background: #FEE2E2; color: #DC2626; }
-    .bg-gray { background: #F1F5F9; color: #64748B; }
-    .bg-orange { background: #FEF3C7; color: #D97706; }
+    .status-badge { padding: 6px 12px; border-radius: 999px; font-weight: 800; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; display:inline-flex; align-items:center; gap:6px; backdrop-filter: blur(4px); }
+    .bg-blue { background: var(--neon-blue-dim); color: var(--neon-blue); border: 1px solid rgba(0,225,255,0.3); box-shadow: 0 0 10px rgba(0,225,255,0.1); }
+    .bg-green { background: var(--neon-green-dim); color: var(--neon-green); border: 1px solid rgba(0,255,136,0.3); box-shadow: 0 0 10px rgba(0,255,136,0.1); }
+    .bg-red { background: var(--neon-red-dim); color: var(--neon-red); border: 1px solid rgba(255,51,102,0.3); box-shadow: 0 0 10px rgba(255,51,102,0.1); }
+    .bg-gray { background: rgba(255,255,255,0.05); color: var(--text-3); border: 1px solid var(--glass-border); }
+    .bg-orange { background: var(--neon-amber-dim); color: var(--neon-amber); border: 1px solid rgba(255,176,0,0.3); box-shadow: 0 0 10px rgba(255,176,0,0.1); }
 
-    /* ================= GERENCIAL, APORTE & WATERFALL (INTERATIVO) ================= */
-    .split-stats { display: flex; justify-content: space-between; margin-top: 24px; padding-top: 16px; border-top: 1px solid #F1F5F9; }
+    /* ================= GERENCIAL, APORTE & WATERFALL ================= */
+    .split-stats { display: flex; justify-content: space-between; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--glass-border); }
     .stat-box { display: flex; flex-direction: column; gap: 4px; }
-    .stat-box .val { font-size: 15px; font-weight: 900; font-variant-numeric: tabular-nums; }
-    #gerencial .card .huge-val, #gerencial .card .stat-box { cursor: pointer; position: relative; border-radius: 6px; padding: 4px; margin: -4px; transition: 0.2s; }
-    #gerencial .card .huge-val:hover, #gerencial .card .stat-box:hover { background: rgba(52, 131, 250, 0.08); }
+    .stat-box .val { font-size: 16px; font-weight: 900; font-variant-numeric: tabular-nums; text-shadow:0 2px 4px rgba(0,0,0,0.5); }
+    #gerencial .card .huge-val, #gerencial .card .stat-box { cursor: pointer; position: relative; border-radius: var(--radius-md); padding: 4px; margin: -4px; transition: 0.2s; }
+    #gerencial .card .huge-val:hover, #gerencial .card .stat-box:hover { background: rgba(255,255,255,0.05); }
     
     .list-ofensores { list-style: none; margin-top: 12px; display: flex; flex-direction: column; gap: 10px; }
-    .list-ofensores li { display: flex; justify-content: space-between; align-items: center; font-size: 10px; font-weight: 700; color: #444; border-bottom: 1px dashed var(--border-light); padding: 8px 4px; border-radius: 6px; transition: 0.2s; cursor: pointer; }
-    .list-ofensores li:hover { background: #F0F6FF; border-color: transparent; }
+    .list-ofensores li { display: flex; justify-content: space-between; align-items: center; font-size: 10px; font-weight: 700; color: var(--text-2); border-bottom: 1px dashed rgba(255,255,255,0.05); padding: 8px 4px; border-radius: var(--radius-md); transition: 0.2s; cursor: pointer; letter-spacing: 0.5px; text-transform:uppercase; }
+    .list-ofensores li:hover { background: rgba(255,255,255,0.05); padding-left: 8px; }
 
-    .card-dark { background: radial-gradient(circle at 20% 20%, #4a5568, #1a202c), repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,255,255,0.02) 5px, rgba(255,255,255,0.02) 10px); color: white; align-items: center; justify-content: center; text-align: center; }
-    #simuladorTag { animation: pulse 2s infinite; }
-    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(225,29,72,0.4); } 70% { box-shadow: 0 0 0 10px rgba(225,29,72,0); } 100% { box-shadow: 0 0 0 0 rgba(225,29,72,0); } }
+    .card-dark { background: radial-gradient(circle at 20% 20%, rgba(255,230,0,0.1), transparent), rgba(0,0,0,0.4); align-items: center; justify-content: center; text-align: center; border-color: rgba(255,230,0,0.2); }
+    #simuladorTag { animation: pulseWarning 2s infinite; }
+    @keyframes pulseWarning { 0% { box-shadow: 0 0 0 0 rgba(255,230,0,0.4); } 70% { box-shadow: 0 0 0 10px rgba(255,230,0,0); } 100% { box-shadow: 0 0 0 0 rgba(255,230,0,0); } }
 
     .chart-placeholder { height: 260px; width: 100%; margin-top: 15px; position: relative; }
-    #c-bar-volumetria { cursor: pointer; }
+    #c-bar-volumetria { cursor: pointer; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); }
 
-    .wf-area { display: flex; align-items: flex-end; gap: 4px; height: 180px; padding-top: 30px; border-bottom: 1px dashed #CBD5E1; position: relative; margin-top: 20px; padding-bottom: 30px; }
-    .wf-col { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; position: relative; cursor: pointer; transition: 0.2s; }
-    .wf-col:hover { transform: translateY(-5px); }
+    .wf-area { display: flex; align-items: flex-end; gap: 4px; height: 200px; padding-top: 30px; border-bottom: 1px dashed var(--glass-border); position: relative; margin-top: 20px; padding-bottom: 30px; }
+    .wf-col { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; position: relative; cursor: pointer; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+    .wf-col:hover { transform: translateY(-10px); }
     .wf-bar { width: 100%; position: relative; transition: height 1.5s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s; border-radius: 4px 4px 0 0; }
-    .wf-bar.start { background: linear-gradient(to top, #3483FA, #629dff); }
-    .wf-bar.loss { background: linear-gradient(to top, #e11d48, #f43f5e); }
-    .wf-bar.final { background: linear-gradient(to top, #FFD600, #FFF159); }
-    .wf-col:hover .wf-bar.loss { background: var(--ml-red); }
-    .wf-col:hover .wf-bar.final { background: var(--ml-yellow-hover); }
-    .wf-val { position: absolute; top: -28px; font-size: 10px; font-weight: 900; color: #111; pointer-events: none; opacity: 0; animation: fadeUp 0.5s 1s forwards; font-variant-numeric: tabular-nums; }
-    .wf-lbl { position: absolute; bottom: -24px; font-size: 8px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; white-space: nowrap; }
+    
+    .wf-bar.start { background: linear-gradient(to top, rgba(0,225,255,0.2), var(--neon-blue)); box-shadow: 0 0 15px rgba(0,225,255,0.3); }
+    .wf-bar.loss { background: linear-gradient(to top, rgba(255,51,102,0.2), var(--neon-red)); box-shadow: 0 0 15px rgba(255,51,102,0.3); }
+    .wf-bar.final { background: linear-gradient(to top, rgba(255,230,0,0.2), var(--ml-yellow)); box-shadow: 0 0 15px rgba(255,230,0,0.3); }
+    
+    .wf-val { position: absolute; top: -28px; font-size: 11px; font-weight: 900; color: var(--text-1); pointer-events: none; opacity: 0; animation: fadeUp 0.5s 1s forwards; font-variant-numeric: tabular-nums; text-shadow: 0 2px 4px rgba(0,0,0,1); }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(-5px); } }
+    .wf-lbl { position: absolute; bottom: -24px; font-size: 8px; font-weight: 800; color: var(--text-3); text-transform: uppercase; white-space: nowrap; letter-spacing: 1px;}
 
-    .ca-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; padding: 25px; background: #F8FAFC; border-bottom: 1px solid var(--border-light); }
-    .ca-item { background: white; border: 1px solid var(--border-light); border-radius: 8px; padding: 16px; display: flex; align-items: flex-start; gap: 12px; cursor: pointer; transition: 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.02); }
-    .ca-item input[type="checkbox"] { margin-top: 2px; width: 16px; height: 16px; accent-color: var(--ml-blue); pointer-events: none; }
+    .ca-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; padding: 25px; background: rgba(0,0,0,0.2); border-bottom: 1px solid var(--glass-border); }
+    .ca-item { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 16px; display: flex; align-items: flex-start; gap: 12px; cursor: pointer; transition: 0.2s; }
+    .ca-item input[type="checkbox"] { margin-top: 2px; width: 16px; height: 16px; accent-color: var(--ml-yellow); pointer-events: none; }
     .ca-text { display: flex; flex-direction: column; gap: 6px; }
-    .ca-title { font-size: 10px; font-weight: 900; color: #444; text-transform: uppercase; transition: 0.2s; line-height: 1.3; }
-    .ca-subtitle { font-size: 8px; font-weight: 900; color: transparent; text-transform: uppercase; display: inline-block; padding: 2px 6px; border-radius: 4px; opacity: 0; transition: 0.2s; align-self: flex-start; letter-spacing: 0.5px; }
-    .ca-item.active { border-color: var(--ml-blue); background: #F0F6FF; box-shadow: 0 4px 12px rgba(52,131,250,0.1); }
-    .ca-item.active .ca-title { color: var(--dark-nav); }
-    .ca-item.active .ca-subtitle { color: var(--ml-blue); opacity: 1; background: white; border: 1px solid rgba(52,131,250,0.2); }
+    .ca-title { font-size: 10px; font-weight: 900; color: var(--text-2); text-transform: uppercase; transition: 0.2s; line-height: 1.3; letter-spacing: 0.5px;}
+    .ca-subtitle { font-size: 8px; font-weight: 900; color: transparent; text-transform: uppercase; display: inline-block; padding: 2px 6px; border-radius: 4px; opacity: 0; transition: 0.2s; align-self: flex-start; letter-spacing: 1px; }
+    .ca-item.active { border-color: var(--ml-yellow); background: rgba(255,230,0,0.05); box-shadow: 0 4px 12px rgba(255,230,0,0.1); }
+    .ca-item.active .ca-title { color: var(--ml-yellow); }
+    .ca-item.active .ca-subtitle { color: var(--bg-base); opacity: 1; background: var(--ml-yellow); }
 
     /* ================= MODAIS E OVERLAYS ================= */
-    .overlay-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.5); z-index: 1500; display: none; backdrop-filter: blur(4px); animation: fadeIn 0.3s ease; }
+    .overlay-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(6, 8, 13, 0.8); z-index: 1500; display: none; backdrop-filter: blur(8px); animation: fadeIn 0.3s ease; }
     .overlay-bg.show { display: block; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-    .custom-tooltip { position: fixed; background: rgba(30, 41, 59, 0.95); backdrop-filter: blur(8px); color: white; padding: 12px 18px; border-radius: 8px; pointer-events: none; opacity: 0; visibility: hidden; transition: opacity 0.2s ease; z-index: 9999; box-shadow: var(--shadow-modal); transform: translate(-50%, -130%); border: 1px solid rgba(255,255,255,0.1); }
+    .custom-tooltip { position: fixed; background: rgba(16, 21, 33, 0.95); backdrop-filter: blur(12px); padding: 14px 20px; border-radius: var(--radius-md); pointer-events: none; opacity: 0; visibility: hidden; transition: opacity 0.2s ease; z-index: 9999; box-shadow: var(--shadow-float); transform: translate(-50%, -130%); border: 1px solid rgba(255,255,255,0.1); border-top: 2px solid var(--ml-yellow); }
     .custom-tooltip.show { opacity: 1; visibility: visible; }
 
-    #status-pill { position: fixed; top: 12px; left: 50%; transform: translateX(-50%); font-size: 9px; font-weight: 900; display: flex; align-items: center; gap: 8px; padding: 6px 16px; border-radius: 20px; text-transform: uppercase; transition: 0.5s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); background: white; color: #333; z-index: 3000; border: 1px solid var(--border-light); max-width: 450px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: 0; visibility: hidden; }
-    #status-pill.show { opacity: 1; visibility: visible; }
+    #status-pill { position: fixed; top: 24px; left: 50%; transform: translateX(-50%) scale(0.95); font-size: 10px; font-weight: 900; display: flex; align-items: center; gap: 12px; padding: 10px 20px; border-radius: 999px; text-transform: uppercase; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 10px 30px rgba(0,0,0,0.8); background: rgba(10, 14, 23, 0.9); backdrop-filter: blur(10px); color: var(--text-1); z-index: 3000; border: 1px solid rgba(255,255,255,0.1); letter-spacing: 1px; opacity: 0; visibility: hidden; }
+    #status-pill.show { opacity: 1; visibility: visible; transform: translateX(-50%) scale(1); }
     
-    .spinner { width: 10px; height: 10px; border: 2px solid #E2E8F0; border-top: 2px solid var(--ml-blue); border-radius: 50%; animation: spin 0.8s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.1); border-top: 2px solid var(--ml-yellow); border-radius: 50%; animation: spin 0.7s linear infinite; }
     @keyframes scaleUp { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
 
-    /* Calendário */
-    .date-picker-modal { position: absolute; top: 48px; left: 0; background: rgba(255,255,255,0.98); backdrop-filter: blur(10px); border-radius: 12px; box-shadow: var(--shadow-modal); width: 380px; padding: 24px; z-index: 2000; border: 1px solid var(--border-light); display: none; animation: scaleUp 0.2s ease; transform-origin: top left; cursor: default; }
+    /* Calendário Dark Premium */
+    .date-picker-modal { position: absolute; top: 48px; left: 0; background: rgba(16, 21, 33, 0.95); backdrop-filter: blur(20px); border-radius: var(--radius-lg); box-shadow: var(--shadow-float); width: 380px; padding: 24px; z-index: 2000; border: 1px solid var(--glass-border); display: none; animation: scaleUp 0.2s ease; transform-origin: top left; cursor: default; }
     .date-picker-modal.show { display: block; }
-    .dp-tabs { display: flex; background: #F1F5F9; padding: 4px; border-radius: 8px; margin-bottom: 20px; }
-    .dp-tab { flex: 1; text-align: center; font-size: 9px; font-weight: 800; padding: 10px 0; border-radius: 6px; cursor: pointer; color: #64748B; transition: 0.2s; text-transform: uppercase; }
-    .dp-tab.active { background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); color: var(--ml-blue); }
+    .dp-tabs { display: flex; background: rgba(0,0,0,0.4); padding: 4px; border-radius: var(--radius-md); margin-bottom: 20px; border: 1px solid var(--glass-border); }
+    .dp-tab { flex: 1; text-align: center; font-size: 9px; font-weight: 800; padding: 10px 0; border-radius: 6px; cursor: pointer; color: var(--text-4); transition: 0.2s; text-transform: uppercase; letter-spacing: 1px; }
+    .dp-tab.active { background: rgba(255,255,255,0.1); color: var(--text-1); box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
     .dp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-    .dp-btn { border: 1px solid #E2E8F0; background: white; padding: 12px; text-align: center; font-size: 10px; font-weight: 800; border-radius: 8px; cursor: pointer; color: #475569; transition: 0.2s; }
-    .dp-btn.active { border-color: var(--ml-blue); color: var(--ml-blue); background: #F0F4FF; }
+    .dp-btn { border: 1px solid var(--glass-border); background: rgba(255,255,255,0.03); padding: 12px; text-align: center; font-size: 10px; font-weight: 800; border-radius: var(--radius-md); cursor: pointer; color: var(--text-3); transition: 0.2s; text-transform: uppercase; letter-spacing: 0.5px; }
+    .dp-btn.active { border-color: var(--ml-yellow); color: var(--ml-yellow); background: rgba(255,230,0,0.05); }
     
     .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; text-align: center; margin-top: 10px; }
-    .cal-head { font-size: 10px; font-weight: 900; color: var(--text-muted); text-transform: uppercase; padding-bottom: 5px; }
-    
-    .cal-day { font-size: 11px; font-weight: 700; color: #333; padding: 8px 0; border-radius: 6px; cursor: pointer; transition: 0.2s; }
-    .cal-day:hover:not(.empty) { background: #F1F5F9; color: var(--ml-blue); font-weight: 900; }
-    .cal-day.active { background: var(--ml-blue); color: white; box-shadow: 0 4px 10px rgba(52,131,250,0.4); font-weight: 900; border-radius: 6px; }
-    .cal-day.in-range { background: #E0F2FE; color: var(--ml-blue); font-weight: 900; border-radius: 0; }
+    .cal-head { font-size: 10px; font-weight: 900; color: var(--text-4); text-transform: uppercase; padding-bottom: 5px; }
+    .cal-day { font-size: 11px; font-weight: 700; color: var(--text-2); padding: 8px 0; border-radius: 6px; cursor: pointer; transition: 0.2s; }
+    .cal-day:hover:not(.empty) { background: rgba(255,255,255,0.1); color: var(--text-1); font-weight: 900; }
+    .cal-day.active { background: var(--ml-yellow); color: var(--bg-base); box-shadow: 0 0 15px var(--ml-yellow-glow); font-weight: 900; border-radius: 6px; }
+    .cal-day.in-range { background: rgba(255,230,0,0.15); color: var(--ml-yellow); font-weight: 900; border-radius: 0; }
 
-    /* Chat e IA */
-    .chat-fab { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: var(--ml-yellow); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; box-shadow: var(--shadow-modal); cursor: pointer; z-index: 2001; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); color: #111; border: 2px solid white; }
+    /* Chat e IA Dark */
+    .chat-fab { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: var(--ml-yellow); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; box-shadow: 0 10px 30px rgba(255,230,0,0.3); cursor: pointer; z-index: 2001; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); color: var(--bg-base); border: 2px solid rgba(255,255,255,0.2); }
     .chat-fab:hover { transform: translateY(-8px) scale(1.05); }
 
-    .chat-window { position: fixed; bottom: 100px; right: 30px; width: 380px; height: 500px; background: white; border-radius: 16px; box-shadow: var(--shadow-modal); display: none; flex-direction: column; z-index: 2000; overflow: hidden; border: 1px solid rgba(0,0,0,0.05); animation: scaleUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-origin: bottom right; }
+    .chat-window { position: fixed; bottom: 100px; right: 30px; width: 380px; height: 500px; background: rgba(16, 21, 33, 0.95); backdrop-filter: blur(20px); border-radius: var(--radius-lg); box-shadow: var(--shadow-float); display: none; flex-direction: column; z-index: 2000; overflow: hidden; border: 1px solid var(--glass-border); animation: scaleUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-origin: bottom right; }
     .chat-window.show { display: flex; }
 
-    .ai-sidebar { position: fixed; top: 0; right: -420px; width: 400px; height: 100%; background: white; z-index: 2000; box-shadow: var(--shadow-modal); transition: 0.5s cubic-bezier(0.22, 1, 0.36, 1); display: flex; flex-direction: column; }
+    .ai-sidebar { position: fixed; top: 0; right: -420px; width: 400px; height: 100%; background: rgba(10, 14, 23, 0.95); backdrop-filter: blur(30px); z-index: 2000; box-shadow: -10px 0 40px rgba(0,0,0,0.8); transition: 0.5s cubic-bezier(0.22, 1, 0.36, 1); display: flex; flex-direction: column; border-left: 1px solid var(--glass-border); }
     .ai-sidebar.open { right: 0; }
 
-    .chat-bubble-user{ align-self:flex-end; background:#E0F2FE; color:#0f172a; padding:12px 14px; border-radius:14px; margin:6px 0; max-width:78%; font-size:13px; font-weight:600; box-shadow: var(--shadow-sm); }
-    .chat-bubble-bot{ align-self:flex-start; background:#F1F5F9; color:#0f172a; padding:12px 14px; border-radius:14px; margin:6px 0; max-width:78%; font-size:13px; font-weight:600; box-shadow: var(--shadow-sm); }
-    .faq-btn{ border:1px solid #E2E8F0; background:white; padding:10px 12px; border-radius:10px; font-size:11px; font-weight:900; color:#334155; cursor:pointer; margin-bottom:8px; text-align:left; }
-    .faq-btn:hover{ background:#F8FAFC; border-color:#CBD5E1; }
-    .card-title{ font-size:11px; font-weight:900; color:#0f172a; display:flex; align-items:center; justify-content:space-between; }
-    .rules-list{ display:flex; flex-direction:column; gap:12px; }
-    .rule-card{ display:flex; justify-content:space-between; align-items:center; padding:14px 16px; border-radius:12px; background:white; border:1px solid var(--border-soft); box-shadow: var(--shadow-sm); }
-    .wf-grid{ display:grid; grid-template-columns: 1.2fr 1fr; gap:20px; }
+    .chat-bubble-user { align-self:flex-end; background:var(--neon-blue-dim); border:1px solid rgba(0,225,255,0.3); color:var(--text-1); padding:12px 16px; border-radius:14px; margin:6px 0; max-width:80%; font-size:12px; font-weight:600; box-shadow: var(--shadow-sm); }
+    .chat-bubble-bot { align-self:flex-start; background:rgba(255,255,255,0.05); border:1px solid var(--glass-border); color:var(--text-2); padding:12px 16px; border-radius:14px; margin:6px 0; max-width:80%; font-size:12px; font-weight:600; box-shadow: var(--shadow-sm); }
+    
+    .faq-btn { border:1px solid var(--glass-border); background:rgba(0,0,0,0.3); padding:12px 16px; border-radius:10px; font-size:10px; font-weight:800; color:var(--text-3); cursor:pointer; margin-bottom:8px; text-align:left; text-transform:uppercase; letter-spacing:1px; transition:0.2s;}
+    .faq-btn:hover { background:rgba(255,255,255,0.05); color:var(--text-1); border-color:rgba(255,255,255,0.1); transform:translateX(4px); }
+    
+    .rules-list { display:flex; flex-direction:column; gap:12px; }
+    .wf-grid { display:grid; grid-template-columns: 1.2fr 1fr; gap:20px; }
     
     /* === ESTILOS PARA A TABELA DE APORTE === */
-    #aporte .table-box { background: transparent; box-shadow: none; border: none; }
-    #table-aporte { border-collapse: separate; border-spacing: 0 16px; }
-    #table-aporte thead th { background: transparent; border: none; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; padding: 0 28px 8px 28px; }
-    #tabela-aporte-real tr { background: white; border-radius: 12px; box-shadow: var(--shadow-card); transition: var(--transition-smooth); border: 1px solid var(--border-light); cursor: pointer; }
-    #tabela-aporte-real tr:hover { transform: translateY(-4px) scale(1.01); box-shadow: var(--shadow-hover); border-color: var(--ml-blue); z-index: 5; position: relative; }
+    #table-aporte { border-collapse: separate; border-spacing: 0 16px; width:100%;}
+    #table-aporte thead th { background: transparent; border: none; font-size: 10px; color: var(--text-4); text-transform: uppercase; letter-spacing: 1px; padding: 0 28px 8px 28px; }
+    #tabela-aporte-real tr { background: rgba(255,255,255,0.02); border-radius: 12px; box-shadow: var(--shadow-sm); transition: var(--transition-smooth); outline: 1px solid var(--glass-border); cursor: pointer; }
+    #tabela-aporte-real tr:hover { transform: translateY(-4px) scale(1.01); box-shadow: var(--shadow-float); outline-color: var(--neon-blue); background: rgba(0,225,255,0.05); z-index: 5; position: relative; }
     #tabela-aporte-real td { padding: 24px 28px; border: none; vertical-align: middle; }
-    #tabela-aporte-real td:first-child { font-weight: 800; font-size: 15px; color: var(--text-dark); }
-    #tabela-aporte-real td:nth-child(2) { text-align: center; font-weight: 900; font-size: 16px; color: var(--text-main); font-variant-numeric: tabular-nums; }
-    #tabela-aporte-real td:last-child { text-align: center; font-weight: 900; font-size: 16px; color: var(--ml-red); font-variant-numeric: tabular-nums; display: flex; align-items: center; justify-content: center; gap: 8px; }
-    #tabela-aporte-real td:last-child::before { font-family: "Font Awesome 6 Free"; content: "\f071"; font-weight: 900; opacity: 0.6; }
-    #tabela-aporte-real tr.total-row { background: var(--dark-nav); color: white; border: 1px solid var(--dark-nav); }
-    #tabela-aporte-real tr.total-row:hover { transform: translateY(-4px) scale(1.01); box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-    #tabela-aporte-real tr.total-row td:first-child { color: white; font-weight: 900; text-transform: uppercase; font-size: 12px; letter-spacing: 0.5px; }
-    #tabela-aporte-real tr.total-row td:nth-child(2) { color: var(--ml-yellow); }
-    #tabela-aporte-real tr.total-row td:last-child { color: var(--ml-yellow); }
-    #tabela-aporte-real tr.total-row td:last-child::before { content: "\f0e7"; color: var(--ml-yellow); opacity: 1; }
-    #tabela-aporte-real tr.empty-row td { text-align: center; padding: 40px; color: var(--text-muted); font-size: 12px; font-weight: 600; }
-    #tabela-aporte-real tr.empty-row:hover { transform: none; box-shadow: var(--shadow-card); border-color: var(--border-light); cursor: default; }
+    #tabela-aporte-real td:first-child { font-weight: 800; font-size: 14px; color: var(--text-2); text-transform: uppercase; letter-spacing: 1px;}
+    #tabela-aporte-real td:nth-child(2) { text-align: center; font-weight: 900; font-size: 18px; color: var(--text-1); font-variant-numeric: tabular-nums; }
+    #tabela-aporte-real td:last-child { text-align: center; font-weight: 900; font-size: 18px; color: var(--neon-red); font-variant-numeric: tabular-nums; display: flex; align-items: center; justify-content: center; gap: 8px; text-shadow:0 0 10px rgba(255,51,102,0.3); }
+    #tabela-aporte-real td:last-child::before { font-family: "Font Awesome 6 Free"; content: "\f071"; font-weight: 900; opacity: 0.6; font-size: 14px;}
+    
+    #tabela-aporte-real tr.total-row { background: rgba(255,230,0,0.05); outline: 1px solid rgba(255,230,0,0.3); }
+    #tabela-aporte-real tr.total-row:hover { box-shadow: 0 10px 30px rgba(255,230,0,0.15); outline-color: var(--ml-yellow); background: rgba(255,230,0,0.1); }
+    #tabela-aporte-real tr.total-row td:first-child { color: var(--text-1); font-weight: 900; }
+    #tabela-aporte-real tr.total-row td:nth-child(2) { color: var(--ml-yellow); text-shadow:0 0 10px rgba(255,230,0,0.3); }
+    #tabela-aporte-real tr.total-row td:last-child { color: var(--ml-yellow); text-shadow:0 0 10px rgba(255,230,0,0.3); }
+    #tabela-aporte-real tr.total-row td:last-child::before { content: "\f0e7"; opacity: 1; }
+    
+    #tabela-aporte-real tr.empty-row td { text-align: center; padding: 40px; color: var(--text-4); font-size: 12px; font-weight: 700; text-transform:uppercase; letter-spacing:1px; }
+    #tabela-aporte-real tr.empty-row:hover { transform: none; outline-color: var(--glass-border); background:rgba(255,255,255,0.02); cursor: default; }
 
   </style>
 </head>
@@ -290,35 +371,35 @@
   <div class="overlay-bg" id="overlayBg" onclick="closeAllModals()"></div>
 
   <div id="status-pill">
-    <div class="spinner"></div> <span id="status-text">LENDO DADOS...</span>
+    <div class="spinner"></div> <span id="status-text">ESTABELECENDO CONEXÃO...</span>
   </div>
 
   <div id="customTooltip" class="custom-tooltip">
-    <div style="font-size: 10px; font-weight: 800; color: #94A3B8; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;" id="tt-title"></div>
-    <div style="font-size: 14px; font-weight: 900; color: white; font-variant-numeric: tabular-nums;" id="tt-val"></div>
+    <div style="font-size: 9px; font-weight: 800; color: var(--text-4); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px;" id="tt-title"></div>
+    <div style="font-size: 16px; font-weight: 900; color: var(--text-1); font-variant-numeric: tabular-nums; text-shadow:0 2px 4px rgba(0,0,0,0.5);" id="tt-val"></div>
   </div>
 
   <div class="ai-sidebar" id="aiSidebar">
-    <div style="background: var(--dark-nav); color: white; padding: 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-card); z-index: 2;">
-      <h2 style="margin:0; font-size: 14px; font-weight: 900; display:flex; align-items:center; gap:12px;">
-        <div style="background:rgba(255,255,255,0.1); width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center;"><i class="fa-solid fa-bolt" style="color:var(--ml-yellow)"></i></div>
+    <div style="background: rgba(0,0,0,0.4); border-bottom:1px solid var(--glass-border); padding: 25px; display: flex; justify-content: space-between; align-items: center; z-index: 2;">
+      <h2 style="margin:0; font-size: 14px; font-weight: 900; display:flex; align-items:center; gap:12px; color:var(--text-1); letter-spacing:1px;">
+        <div style="background:rgba(255,230,0,0.1); border:1px solid rgba(255,230,0,0.3); width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center;"><i class="fa-solid fa-bolt" style="color:var(--ml-yellow); text-shadow:0 0 10px var(--ml-yellow-glow)"></i></div>
         FIRST MILE • INSIGHTS
       </h2>
-      <i class="fa-solid fa-xmark" style="cursor:pointer; font-size:22px; opacity:0.8; transition:0.2s" onclick="toggleAI()" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'"></i>
+      <i class="fa-solid fa-xmark" style="cursor:pointer; font-size:22px; color:var(--text-4); transition:0.2s" onclick="toggleAI()" onmouseover="this.style.color='var(--neon-red)'" onmouseout="this.style.color='var(--text-4)'"></i>
     </div>
-    <div style="padding: 30px 25px; flex: 1; overflow-y: auto; background: #FAFAFA;">
-      <div style="font-size:11px; font-weight:900; color:var(--chat-blue); text-transform:uppercase; margin-bottom:12px; letter-spacing:0.5px;">ANÁLISE EXECUTIVA</div>
-      <div id="aiExecutiveBox" style="background:white; border:1px solid var(--border-light); border-radius:12px; padding:20px; margin-bottom:30px; font-size:13px; color:var(--text-dark); line-height:1.6; font-style:italic; box-shadow:var(--shadow-sm);">
-        Aguardando leitura do banco de dados...
+    <div style="padding: 30px 25px; flex: 1; overflow-y: auto;">
+      <div style="font-size:10px; font-weight:900; color:var(--neon-blue); text-transform:uppercase; margin-bottom:12px; letter-spacing:1px;">ANÁLISE EXECUTIVA</div>
+      <div id="aiExecutiveBox" style="background:rgba(255,255,255,0.02); border:1px solid var(--glass-border); border-radius:12px; padding:20px; margin-bottom:30px; font-size:13px; color:var(--text-2); line-height:1.6; font-style:italic; box-shadow:inset 0 2px 4px rgba(0,0,0,0.5);">
+        Aguardando telemetria da base de dados...
       </div>
 
-      <div style="font-size:11px; font-weight:900; color:var(--ml-green); text-transform:uppercase; margin-bottom:12px; letter-spacing:0.5px;">STATUS DO SISTEMA</div>
-      <div style="background:#ECFDF5; border:1px solid #A7F3D0; border-radius:12px; padding:20px; box-shadow:var(--shadow-sm);">
-        <div style="display:flex; align-items:center; gap:12px; font-weight:800; color:#065F46; font-size:13px">
-          <i class="fa-solid fa-check-circle" style="font-size:18px; color:var(--ml-green);"></i> Conexão Apps Script OK
+      <div style="font-size:10px; font-weight:900; color:var(--neon-green); text-transform:uppercase; margin-bottom:12px; letter-spacing:1px;">STATUS DO SISTEMA</div>
+      <div style="background:var(--neon-green-dim); border:1px solid rgba(0,255,136,0.3); border-radius:12px; padding:20px; box-shadow:0 0 20px rgba(0,255,136,0.05);">
+        <div style="display:flex; align-items:center; gap:12px; font-weight:800; color:var(--neon-green); font-size:12px; letter-spacing:0.5px;">
+          <i class="fa-solid fa-satellite-dish" style="font-size:16px;"></i> Conexão Apps Script OK
         </div>
-        <div style="display:flex; align-items:center; gap:12px; font-weight:800; color:#065F46; font-size:13px; margin-top:12px;">
-          <i class="fa-solid fa-check-circle" style="font-size:18px; color:var(--ml-green);"></i> Renderização Gráfica OK
+        <div style="display:flex; align-items:center; gap:12px; font-weight:800; color:var(--neon-green); font-size:12px; margin-top:16px; letter-spacing:0.5px;">
+          <i class="fa-solid fa-microchip" style="font-size:16px;"></i> Renderização Gráfica OK
         </div>
       </div>
     </div>
@@ -326,18 +407,18 @@
 
   <header class="top-header">
     <div class="logo-area">
-      <h1>FIRST MILE • PERFORMANCE CCO <h1>
-      <p>CCO CONTROLES OPERACIONAIS</p>
+      <h1>FIRST MILE • PERFORMANCE CCO</h1>
+      <p><div class="pulse-dot"></div> CCO CONTROLES OPERACIONAIS</p>
     </div>
 
     <div class="header-controls">
       <div class="update-stamp" id="liveClock">ATUALIZADO: --/-- --:--</div>
 
       <div class="ctrl-box custom-dropdown-container">
-        <label>Ano Ref.</label>
-        <div class="ctrl-input" style="width: 90px;" onclick="toggleAnoDropdown(event)">
+        <label>ANO REF.</label>
+        <div class="ctrl-input" style="width: 100px;" onclick="toggleAnoDropdown(event)">
           <span id="anoDisplay">2026</span>
-          <i class="fa-solid fa-chevron-down" style="color:var(--text-muted); font-size: 10px;"></i>
+          <i class="fa-solid fa-chevron-down" style="color:var(--text-4); font-size: 10px;"></i>
         </div>
         <div class="dropdown-menu" id="anoDropdown">
           <div class="dropdown-item" onclick="selectAno(this, '2027')">2027</div>
@@ -347,10 +428,10 @@
       </div>
 
       <div class="ctrl-box">
-        <label>Filtro de Tempo</label>
+        <label>PARÂMETRO DE TEMPO</label>
         <div class="ctrl-input" style="width: 290px;" onclick="toggleDatepicker(event)">
-          <span id="dateDisplay"><i class="fa-regular fa-calendar" style="color:var(--ml-blue); margin-right:8px; font-size:14px"></i> --/--/---- <span style="color:var(--border-light); margin:0 8px">|</span> DIA</span>
-          <i class="fa-solid fa-chevron-down" style="color:var(--text-muted);"></i>
+          <span id="dateDisplay"><i class="fa-solid fa-calendar-day" style="color:var(--ml-yellow); margin-right:8px; font-size:14px; text-shadow:0 0 8px var(--ml-yellow-glow);"></i> --/--/---- <span style="color:var(--text-4); margin:0 8px">|</span> DIA</span>
+          <i class="fa-solid fa-chevron-down" style="color:var(--text-4);"></i>
         </div>
 
         <div class="date-picker-modal" id="datepickerModal" onclick="event.stopPropagation()">
@@ -369,37 +450,37 @@
             <div class="dp-btn" onclick="selectQuickBtn(this, 'ESTE MÊS')">ESTE MÊS</div>
           </div>
 
-          <div style="font-size:9px; font-weight:800; text-align:center; color:var(--text-muted); letter-spacing:0.5px; text-transform:uppercase;">Dê 2 cliques: Data Inicial e Data Final</div>
+          <div style="font-size:8px; font-weight:800; text-align:center; color:var(--text-4); letter-spacing:1px; text-transform:uppercase;">Duplo clique para Período Personalizado</div>
 
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; margin-top:10px; padding:0 10px;">
-            <i class="fa-solid fa-chevron-left" style="cursor:pointer; padding:5px; color:var(--ml-blue);" onclick="changeMonth(-1)"></i>
-            <span id="calMonthYear" style="font-size:11px; font-weight:900; color:var(--dark-blue); text-transform:uppercase; letter-spacing:0.5px;">--</span>
-            <i class="fa-solid fa-chevron-right" style="cursor:pointer; padding:5px; color:var(--ml-blue);" onclick="changeMonth(1)"></i>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; margin-top:16px; padding:0 10px;">
+            <i class="fa-solid fa-chevron-left" style="cursor:pointer; padding:5px; color:var(--text-3); transition:0.2s" onclick="changeMonth(-1)" onmouseover="this.style.color='var(--text-1)'" onmouseout="this.style.color='var(--text-3)'"></i>
+            <span id="calMonthYear" style="font-size:11px; font-weight:900; color:var(--text-1); text-transform:uppercase; letter-spacing:1px;">--</span>
+            <i class="fa-solid fa-chevron-right" style="cursor:pointer; padding:5px; color:var(--text-3); transition:0.2s" onclick="changeMonth(1)" onmouseover="this.style.color='var(--text-1)'" onmouseout="this.style.color='var(--text-3)'"></i>
           </div>
 
           <div class="cal-grid" id="dynamicCalGrid"></div>
 
-          <div class="dp-actions" style="display:flex; justify-content:space-between; align-items:center; margin-top:16px;">
-            <span style="font-size:11px; font-weight:800; color:var(--text-muted); cursor:pointer;" onclick="closeAllModals()">CANCELAR</span>
-            <button style="background:var(--ml-blue); color:white; border:none; padding:10px 20px; border-radius:8px; font-size:11px; font-weight:900; cursor:pointer;" onclick="applyDateSettings()">APLICAR</button>
+          <div class="dp-actions" style="display:flex; justify-content:space-between; align-items:center; margin-top:20px; border-top:1px solid var(--glass-border); padding-top:16px;">
+            <span style="font-size:10px; font-weight:800; color:var(--neon-red); cursor:pointer; letter-spacing:1px;" onclick="closeAllModals()">CANCELAR</span>
+            <button style="background:var(--ml-yellow); color:var(--bg-base); border:none; padding:10px 24px; border-radius:var(--radius-md); font-size:10px; font-weight:900; cursor:pointer; letter-spacing:1px; text-transform:uppercase; box-shadow:0 4px 15px rgba(255,230,0,0.3);" onclick="applyDateSettings()">Sincronizar</button>
           </div>
         </div>
       </div>
 
       <button class="btn-refresh" onclick="fetchRealGoogleSheetData(this)" title="Sincronizar Manualmente"><i class="fa-solid fa-rotate-right"></i></button>
-      <button class="btn-ai" onclick="toggleAI()"><i class="fa-solid fa-wand-magic-sparkles"></i> AI INSIGHTS</button>
+      <button class="btn-ai" onclick="toggleAI()"><i class="fa-solid fa-microchip" style="color:var(--neon-blue);"></i> AI INSIGHTS</button>
     </div>
   </header>
 
   <nav class="main-nav">
-    <button class="tab active" onclick="switchTab('monitoramento', this)"><i class="fa-solid fa-truck-fast"></i> Monitoramento</button>
+    <button class="tab active" onclick="switchTab('monitoramento', this)"><i class="fa-solid fa-radar"></i> Monitoramento</button>
     <button class="tab" onclick="switchTab('gerencial', this)"><i class="fa-solid fa-chart-line"></i> Gerencial</button>
-    <button class="tab" onclick="switchTab('aporte', this)"><i class="fa-solid fa-chart-pie"></i> Aporte</button>
+    <button class="tab" onclick="switchTab('aporte', this)"><i class="fa-solid fa-layer-group"></i> Aporte</button>
   </nav>
 
   <div class="filters-bar" id="filters-container">
-    <div class="filter-label"><i class="fa-solid fa-filter" style="color:var(--border-soft); font-size:16px"></i> EXPLORADOR</div>
-    <button id="clearFiltersBtn" style="margin-left: auto; background: #FEF2F2; border: 1px solid #FECACA; color: var(--ml-red); padding: 8px 16px; border-radius: 8px; font-size: 10px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 8px;" onclick="applyClientSideFilters('clear')"><i class="fa-solid fa-filter-circle-xmark"></i> LIMPAR FILTROS</button>
+    <div class="filter-label"><i class="fa-solid fa-filter"></i> EXPLORADOR</div>
+    <button id="clearFiltersBtn" onclick="applyClientSideFilters('clear')"><i class="fa-solid fa-xmark"></i> RESETAR FILTROS</button>
   </div>
 
   <div class="content">
@@ -409,26 +490,26 @@
         
         <div class="card clickable-card" onclick="openTableDetails('TODOS', 'Rotas Totais (Visão Geral)')">
           <div class="card-header">
-            <span class="card-label">Rotas Totais</span>
+            <span class="card-label">VOLUME DE REDE</span>
             <div class="huge-val" id="val-rotas-total">0</div>
           </div>
-          <div class="card-body">
+          <div class="card-body" style="display:flex; align-items:center; gap:16px;">
             <div class="kpi-chart-box"><canvas id="c-rotas"></canvas></div>
             <ul class="kpi-list">
               <li onclick="event.stopPropagation(); openTableDetails('ANDAMENTO_TOTAL', 'Rotas em Andamento')">
-                <div class="kpi-list-label"><span class="dot" style="background:var(--ml-blue)"></span> Em Andamento</div>
+                <div class="kpi-list-label"><span class="dot" style="background:var(--neon-blue); box-shadow:0 0 10px var(--neon-blue);"></span> EM ROTA</div>
                 <div class="kpi-list-values"><span id="val-and-count">0</span><span class="pct-label" id="val-and-pct">(0.0%)</span></div>
               </li>
               <li onclick="event.stopPropagation(); openTableDetails('FINALIZADO_TOTAL', 'Rotas Finalizadas')">
-                <div class="kpi-list-label"><span class="dot" style="background:var(--dark-blue)"></span> Finalizados</div>
+                <div class="kpi-list-label"><span class="dot" style="background:var(--neon-green); box-shadow:0 0 10px var(--neon-green);"></span> SUCESSO</div>
                 <div class="kpi-list-values"><span id="val-fin-count">0</span><span class="pct-label" id="val-fin-pct">(0.0%)</span></div>
               </li>
               <li onclick="event.stopPropagation(); openTableDetails('PENDENTE', 'Rotas Pendentes')">
-                <div class="kpi-list-label"><span class="dot" style="background:var(--text-muted)"></span> Pendentes</div>
+                <div class="kpi-list-label"><span class="dot" style="background:var(--text-4);"></span> PENDENTE</div>
                 <div class="kpi-list-values"><span id="val-pen-count">0</span><span class="pct-label" id="val-pen-pct">(0.0%)</span></div>
               </li>
               <li onclick="event.stopPropagation(); openTableDetails('CANCELADO', 'Rotas Canceladas')">
-                <div class="kpi-list-label"><span class="dot" style="background:#F59E0B"></span> Cancelados</div>
+                <div class="kpi-list-label"><span class="dot" style="background:var(--neon-amber); box-shadow:0 0 10px var(--neon-amber);"></span> CANCELADO</div>
                 <div class="kpi-list-values"><span id="val-can-count">0</span><span class="pct-label" id="val-can-pct">(0.0%)</span></div>
               </li>
             </ul>
@@ -438,22 +519,22 @@
         <div class="card clickable-card" onclick="openTableDetails('ANDAMENTO_TOTAL', 'Monitoramento GPS (Em Andamento)')">
           <div class="kpi-row" style="flex-direction: row; display: flex;">
             <div class="card-header" style="flex:1;">
-              <span class="card-label">Sinal GPS</span>
-              <div class="huge-val val-dark" id="val-gps-pct">0%</div>
-              <span style="font-size:9px;font-weight:900;color:var(--text-muted);margin-top:6px;letter-spacing:0.5px">EM ANDAMENTO</span>
+              <span class="card-label">SINAL TELEMÉTRICO</span>
+              <div class="huge-val" style="color:var(--neon-blue);" id="val-gps-pct">0%</div>
+              <span style="font-size:9px;font-weight:900;color:var(--text-4);margin-top:6px;letter-spacing:1px">EM ANDAMENTO</span>
             </div>
             <div class="gps-icon">
-              <i class="fa-solid fa-location-dot" style="font-size:36px; color:var(--ml-blue)"></i>
-              <div class="badge-gps" id="val-gps-badge">-0%</div>
+              <i class="fa-solid fa-satellite" style="font-size:32px; color:var(--neon-blue); text-shadow:0 0 15px var(--neon-blue-dim);"></i>
+              <div class="badge" style="position:absolute; bottom:-10px; background:rgba(0,0,0,0.8); border:1px solid rgba(0,225,255,0.3); color:var(--neon-blue);" id="val-gps-badge">-0%</div>
             </div>
-            <ul class="kpi-list" style="min-width: 80px;">
+            <ul class="kpi-list" style="min-width: 90px; padding-left:10px;">
               <li onclick="event.stopPropagation(); openTableDetails('GPS_COM', 'Rotas COM Sinal GPS')">
-                <div class="kpi-list-label"><span class="dot" style="background:var(--ml-blue)"></span> Com Sinal</div>
+                <div class="kpi-list-label"><span class="dot" style="background:var(--neon-blue);"></span> ONLINE</div>
                 <div class="kpi-list-values"><span id="val-gps-com">0</span></div>
               </li>
               <li onclick="event.stopPropagation(); openTableDetails('GPS_SEM', 'Rotas SEM Sinal GPS')">
-                <div class="kpi-list-label"><span class="dot" style="background:var(--text-muted)"></span> Sem Sinal</div>
-                <div class="kpi-list-values"><span style="color:var(--text-muted)" id="val-gps-sem">0</span></div>
+                <div class="kpi-list-label"><span class="dot" style="background:var(--text-4);"></span> OFFLINE</div>
+                <div class="kpi-list-values"><span style="color:var(--text-4)" id="val-gps-sem">0</span></div>
               </li>
             </ul>
           </div>
@@ -461,19 +542,19 @@
 
         <div class="card clickable-card" onclick="openTableDetails('ANDAMENTO_TOTAL', 'Todas as Rotas em Andamento')">
           <div class="card-header">
-            <span class="card-label">Em Andamento</span>
-            <div class="huge-val val-dark" id="val-and-big">0</div>
+            <span class="card-label">VEÍCULOS EM ROTA</span>
+            <div class="huge-val" id="val-and-big">0</div>
           </div>
-          <div class="card-body">
+          <div class="card-body" style="display:flex; align-items:center; gap:16px;">
             <div class="kpi-chart-box"><canvas id="c-andamento"></canvas></div>
             <ul class="kpi-list">
               <li onclick="event.stopPropagation(); openTableDetails('ANDAMENTO_PRAZO', 'Rotas em Andamento (NO PRAZO)')">
-                <div class="kpi-list-label"><span class="dot" style="background:var(--ml-green)"></span> No Prazo</div>
+                <div class="kpi-list-label"><span class="dot" style="background:var(--neon-green); box-shadow:0 0 10px var(--neon-green);"></span> NO PRAZO</div>
                 <div class="kpi-list-values"><span id="val-and-prazo-cnt">0</span><span class="pct-label" id="val-and-prazo-pct">(0.0%)</span></div>
               </li>
               <li onclick="event.stopPropagation(); openTableDetails('ANDAMENTO_ATRASO', 'Rotas em Andamento (ATRASADAS)')">
-                <div class="kpi-list-label"><span class="dot" style="background:var(--ml-red)"></span> Atrasadas</div>
-                <div class="kpi-list-values"><span style="color:var(--ml-red)" id="val-and-atraso-cnt">0</span><span class="pct-label" style="color:var(--ml-red); opacity:0.6;" id="val-and-atraso-pct">(0.0%)</span></div>
+                <div class="kpi-list-label"><span class="dot" style="background:var(--neon-red); box-shadow:0 0 10px var(--neon-red);"></span> ATRASADO</div>
+                <div class="kpi-list-values"><span style="color:var(--neon-red)" id="val-and-atraso-cnt">0</span><span class="pct-label" style="color:var(--neon-red); opacity:0.6;" id="val-and-atraso-pct">(0.0%)</span></div>
               </li>
             </ul>
           </div>
@@ -481,19 +562,19 @@
 
         <div class="card clickable-card" onclick="openTableDetails('FINALIZADO_TOTAL', 'Todas as Rotas Finalizadas')">
           <div class="card-header">
-            <span class="card-label">Finalizados</span>
-            <div class="huge-val val-dark" id="val-fin-big">0</div>
+            <span class="card-label">MISSÕES CONCLUÍDAS</span>
+            <div class="huge-val" id="val-fin-big">0</div>
           </div>
-          <div class="card-body">
+          <div class="card-body" style="display:flex; align-items:center; gap:16px;">
             <div class="kpi-chart-box"><canvas id="c-finalizado"></canvas></div>
             <ul class="kpi-list">
               <li onclick="event.stopPropagation(); openTableDetails('FINALIZADO_PRAZO', 'Rotas Finalizadas (NO PRAZO)')">
-                <div class="kpi-list-label"><span class="dot" style="background:var(--ml-green)"></span> No Prazo</div>
+                <div class="kpi-list-label"><span class="dot" style="background:var(--neon-green); box-shadow:0 0 10px var(--neon-green);"></span> NO PRAZO</div>
                 <div class="kpi-list-values"><span id="val-fin-prazo-cnt">0</span><span class="pct-label" id="val-fin-prazo-pct">(0.0%)</span></div>
               </li>
               <li onclick="event.stopPropagation(); openTableDetails('FINALIZADO_ATRASO', 'Rotas Finalizadas (ATRASADAS)')">
-                <div class="kpi-list-label"><span class="dot" style="background:var(--ml-red)"></span> Atrasadas</div>
-                <div class="kpi-list-values"><span style="color:var(--ml-red)" id="val-fin-atraso-cnt">0</span><span class="pct-label" style="color:var(--ml-red); opacity:0.6;" id="val-fin-atraso-pct">(0.0%)</span></div>
+                <div class="kpi-list-label"><span class="dot" style="background:var(--neon-red); box-shadow:0 0 10px var(--neon-red);"></span> ATRASADO</div>
+                <div class="kpi-list-values"><span style="color:var(--neon-red)" id="val-fin-atraso-cnt">0</span><span class="pct-label" style="color:var(--neon-red); opacity:0.6;" id="val-fin-atraso-pct">(0.0%)</span></div>
               </li>
             </ul>
           </div>
@@ -501,22 +582,22 @@
       </div>
 
       <div class="kpi-grid-2">
-        <div class="card clickable-card" style="box-shadow: none;" onclick="openTableDetails('ANDAMENTO_ATRASO', 'Atrasos em Andamento')">
+        <div class="card clickable-card" onclick="openTableDetails('ANDAMENTO_ATRASO', 'Atrasos em Andamento')">
           <div class="atrasos-header">
-            <div class="atrasos-title"><i class="fa-regular fa-clock"></i> Atrasos em Andamento</div>
+            <div class="atrasos-title"><i class="fa-solid fa-clock-rotate-left"></i> ALERTA: ATRASOS EM ROTA</div>
             <div class="badge" id="lbl-total-atraso-and">0 ROTAS</div>
           </div>
           <div class="delay-list" id="barras-atraso-andamento">
-            <div class="empty-state"><i class="fa-solid fa-spinner fa-spin"></i><span>Aguardando dados...</span></div>
+            <div class="empty-state"><i class="fa-solid fa-spinner fa-spin"></i><span>Aguardando telemetria...</span></div>
           </div>
         </div>
-        <div class="card clickable-card" style="box-shadow: none; border-color: #E2E8F0;" onclick="openTableDetails('FINALIZADO_ATRASO', 'Atrasos Finalizados')">
+        <div class="card clickable-card" onclick="openTableDetails('FINALIZADO_ATRASO', 'Atrasos Finalizados')">
           <div class="atrasos-header finalizado">
-            <div class="atrasos-title"><i class="fa-solid fa-check-double"></i> Atrasos Finalizados</div>
+            <div class="atrasos-title"><i class="fa-solid fa-clipboard-check"></i> HISTÓRICO DE DESVIOS</div>
             <div class="badge" id="lbl-total-atraso-fin">0 ROTAS</div>
           </div>
           <div class="delay-list" id="barras-atraso-finalizado">
-             <div class="empty-state"><i class="fa-solid fa-spinner fa-spin"></i><span>Aguardando dados...</span></div>
+             <div class="empty-state"><i class="fa-solid fa-spinner fa-spin"></i><span>Aguardando telemetria...</span></div>
           </div>
         </div>
       </div>
@@ -524,9 +605,9 @@
       <div id="dynamic-details" class="details-section">
         <div class="details-header">
           <div class="details-title-group">
-            <i class="fa-solid fa-list-check"></i>
-            <h2 id="details-title">Selecione um filtro</h2>
-            <span class="badge" id="details-count">0 ROTAS</span>
+            <i class="fa-solid fa-microchip"></i>
+            <h2 id="details-title">AGUARDANDO SELEÇÃO</h2>
+            <span class="badge" style="background:var(--neon-blue-dim); color:var(--neon-blue); border-color:rgba(0,225,255,0.3)" id="details-count">0 REGISTROS</span>
           </div>
           <button class="btn-close" onclick="closeDetails()"><i class="fa-solid fa-xmark"></i></button>
         </div>
@@ -536,13 +617,13 @@
             <table id="details-table">
               <thead>
                 <tr>
-                  <th>ID Rota</th>
-                  <th>Status</th>
-                  <th>Data Criação</th>
-                  <th>Regional</th>
-                  <th>Hub</th>
-                  <th>Ocorrência</th>
-                  <th>Situação</th>
+                  <th>Route ID</th>
+                  <th>Status Sistêmico</th>
+                  <th>Timestamp Criação</th>
+                  <th>Célula Regional</th>
+                  <th>Nó HUB</th>
+                  <th>Diagnóstico Ocorrência</th>
+                  <th>Condição de Prazo</th>
                 </tr>
               </thead>
               <tbody id="details-tbody">
@@ -551,16 +632,16 @@
           </div>
           
           <div class="pagination-bar" id="pagination-bar" style="display: none;">
-            <span class="page-info" id="page-info">EXIBINDO 0 A 0 DE 0</span>
+            <span class="page-info" id="page-info">RENDERIZANDO 0 A 0 DE 0</span>
             <div class="page-controls">
-              <button id="btn-prev" onclick="changePage(-1)"><i class="fa-solid fa-chevron-left"></i> Anterior</button>
-              <button id="btn-next" onclick="changePage(1)">Próximo <i class="fa-solid fa-chevron-right"></i></button>
+              <button id="btn-prev" onclick="changePage(-1)"><i class="fa-solid fa-angle-left"></i> VOLTAR</button>
+              <button id="btn-next" onclick="changePage(1)">AVANÇAR <i class="fa-solid fa-angle-right"></i></button>
             </div>
           </div>
 
           <div id="empty-state-details" class="empty-state" style="display: none;">
-            <i class="fa-regular fa-folder-open"></i>
-            <span>Nenhuma rota encontrada para este filtro.</span>
+            <i class="fa-solid fa-database"></i>
+            <span>Nenhuma anomalia detectada neste setor.</span>
           </div>
         </div>
       </div>
@@ -570,76 +651,76 @@
     <div id="gerencial" class="tab-pane">
       <div class="grid-5">
         <div class="card clickable-card">
-          <span class="card-title">VOLUME DROPOFF <i class="fa-solid fa-cube" style="color:var(--border-light);font-size:16px"></i></span>
+          <span class="card-title">VOLUME DROPOFF <i class="fa-solid fa-cube" style="color:var(--text-4);font-size:16px"></i></span>
           <div class="huge-val" id="ger-vol-val" onclick="openGerencialDetails('TODOS', 'Volume Dropoff (Geral)')">0</div>
           <div class="split-stats">
-            <div class="stat-box" onclick="openGerencialDetails('GERAL_PRAZO', 'Volume Dropoff (No Prazo)')"><span class="lbl" style="color:var(--text-muted);font-size:9px;font-weight:800">NO PRAZO</span><span class="val" style="color:var(--ml-green)" id="ger-vol-prazo">0</span></div>
-            <div class="stat-box" style="text-align:right;" onclick="openGerencialDetails('GERAL_ATRASO', 'Volume Dropoff (Atrasado)')"><span class="lbl" style="color:var(--text-muted);font-size:9px;font-weight:800">ATRASADO</span><span class="val" style="color:var(--ml-red)" id="ger-vol-atraso">0</span></div>
+            <div class="stat-box" onclick="openGerencialDetails('GERAL_PRAZO', 'Volume Dropoff (No Prazo)')"><span class="lbl" style="color:var(--text-4);font-size:9px;font-weight:800;letter-spacing:1px">NO PRAZO</span><span class="val" style="color:var(--neon-green)" id="ger-vol-prazo">0</span></div>
+            <div class="stat-box" style="text-align:right;" onclick="openGerencialDetails('GERAL_ATRASO', 'Volume Dropoff (Atrasado)')"><span class="lbl" style="color:var(--text-4);font-size:9px;font-weight:800;letter-spacing:1px">ATRASADO</span><span class="val" style="color:var(--neon-red)" id="ger-vol-atraso">0</span></div>
           </div>
         </div>
 
         <div class="card clickable-card">
-          <span class="card-title">VIAGENS <i class="fa-solid fa-truck" style="color:var(--border-light);font-size:16px"></i></span>
+          <span class="card-title">VIAGENS VÁLIDAS <i class="fa-solid fa-truck" style="color:var(--text-4);font-size:16px"></i></span>
           <div class="huge-val" id="ger-via-val" onclick="openGerencialDetails('TODOS', 'Viagens (Geral)')">0</div>
           <div class="split-stats">
-            <div class="stat-box" onclick="openGerencialDetails('GERAL_PRAZO', 'Viagens (No Prazo)')"><span class="lbl" style="color:var(--text-muted);font-size:9px;font-weight:800">NO PRAZO</span><span class="val" style="color:var(--ml-green)" id="ger-via-prazo">0</span></div>
-            <div class="stat-box" style="text-align:right;" onclick="openGerencialDetails('GERAL_ATRASO', 'Viagens (Atrasadas)')"><span class="lbl" style="color:var(--text-muted);font-size:9px;font-weight:800">ATRASADO</span><span class="val" style="color:var(--ml-red)" id="ger-via-atraso">0</span></div>
+            <div class="stat-box" onclick="openGerencialDetails('GERAL_PRAZO', 'Viagens (No Prazo)')"><span class="lbl" style="color:var(--text-4);font-size:9px;font-weight:800;letter-spacing:1px">NO PRAZO</span><span class="val" style="color:var(--neon-green)" id="ger-via-prazo">0</span></div>
+            <div class="stat-box" style="text-align:right;" onclick="openGerencialDetails('GERAL_ATRASO', 'Viagens (Atrasadas)')"><span class="lbl" style="color:var(--text-4);font-size:9px;font-weight:800;letter-spacing:1px">ATRASADO</span><span class="val" style="color:var(--neon-red)" id="ger-via-atraso">0</span></div>
           </div>
         </div>
 
-        <div class="card clickable-card" style="border-bottom: 4px solid var(--ml-red);">
-          <span class="card-title" style="color:var(--dark-blue)">PERFORMANCE CCO <i class="fa-solid fa-arrow-trend-up" style="color:var(--ml-red); font-size:14px"></i></span>
-          <div class="huge-val" style="color:var(--ml-red)" id="ger-perf-val" onclick="openGerencialDetails('FINALIZADO_TOTAL', 'Performance CCO (Finalizadas)')">0.00%</div>
+        <div class="card clickable-card" style="border-bottom: 4px solid var(--neon-red);">
+          <span class="card-title" style="color:var(--text-2)">PERFORMANCE CCO <i class="fa-solid fa-arrow-trend-up" style="color:var(--neon-red); font-size:14px; text-shadow:0 0 10px var(--neon-red-dim)"></i></span>
+          <div class="huge-val" style="color:var(--neon-red); text-shadow:0 0 15px rgba(255,51,102,0.4);" id="ger-perf-val" onclick="openGerencialDetails('FINALIZADO_TOTAL', 'Performance CCO (Finalizadas)')">0.00%</div>
           <div class="split-stats">
-            <div class="stat-box" onclick="openGerencialDetails('FINALIZADO_TOTAL', 'Performance CCO (Finalizadas)')"><span class="lbl" style="color:var(--text-muted);font-size:9px;font-weight:800">GROSS LIDO</span><span class="val" id="ger-perf-gross" style="color:#111">0.00%</span></div>
-            <div class="stat-box" style="text-align:right;"><span class="lbl" style="color:var(--text-muted);font-size:9px;font-weight:800">GAP</span><span class="val" style="color:var(--ml-red)" id="ger-perf-gap">0.00%</span></div>
+            <div class="stat-box" onclick="openGerencialDetails('FINALIZADO_TOTAL', 'Performance CCO (Finalizadas)')"><span class="lbl" style="color:var(--text-4);font-size:9px;font-weight:800;letter-spacing:1px">GROSS LIDO</span><span class="val" id="ger-perf-gross" style="color:var(--text-1)">0.00%</span></div>
+            <div class="stat-box" style="text-align:right;"><span class="lbl" style="color:var(--text-4);font-size:9px;font-weight:800;letter-spacing:1px">IMPACTO/GAP</span><span class="val" style="color:var(--neon-red)" id="ger-perf-gap">0.00%</span></div>
           </div>
         </div>
 
         <div class="card clickable-card">
-          <span class="card-title" style="color:var(--ml-red)"><span style="display:flex;align-items:center;gap:8px"><i class="fa-solid fa-shield-halved" style="font-size:14px"></i> TOP OFENSORES</span></span>
+          <span class="card-title" style="color:var(--neon-red)"><span style="display:flex;align-items:center;gap:8px"><i class="fa-solid fa-crosshairs" style="font-size:14px"></i> TOP OFENSORES</span></span>
           <ul class="list-ofensores" id="lista-top-ofensores">
-            <div style="text-align:center; padding: 20px; color:var(--text-muted); font-size: 11px; font-weight:600;">Aguardando dados...</div>
+            <div style="text-align:center; padding: 20px; color:var(--text-4); font-size: 11px; font-weight:600; text-transform:uppercase; letter-spacing:1px;">Aguardando base...</div>
           </ul>
         </div>
 
         <div class="card card-dark">
-          <span class="card-title" style="color:var(--text-muted); justify-content:center; font-size:11px; width:100%; letter-spacing:1px;">SIMULADOR</span>
-          <div class="card-value-huge" style="color:white; text-shadow:0 4px 10px rgba(0,0,0,0.5); margin:20px 0" id="simulador-val">0.00%</div>
-          <div id="simuladorTag" style="font-size:10px;font-weight:900;color:#FECDD3;background:rgba(225,29,72,0.2);border:1px solid rgba(225,29,72,0.3);padding:8px 16px;border-radius:20px;display:inline-flex;align-items:center;gap:6px; letter-spacing:0.5px;">
-            <i class="fa-solid fa-bolt"></i> AGUARDANDO BASE
+          <span class="card-title" style="color:var(--ml-yellow); justify-content:center; font-size:11px; width:100%; letter-spacing:2px; text-shadow:0 0 10px var(--ml-yellow-glow); border-bottom:1px solid rgba(255,230,0,0.2); padding-bottom:8px;">MOTOR DE SIMULAÇÃO</span>
+          <div class="huge-val" style="color:var(--text-1); text-shadow:0 0 20px rgba(255,255,255,0.8); margin:20px 0" id="simulador-val">0.00%</div>
+          <div id="simuladorTag" style="font-size:9px;font-weight:900;color:var(--bg-base);background:var(--ml-yellow);border:1px solid var(--ml-yellow);padding:8px 16px;border-radius:999px;display:inline-flex;align-items:center;gap:8px; letter-spacing:1px;">
+            <i class="fa-solid fa-microchip"></i> AGUARDANDO DADOS
           </div>
         </div>
       </div>
 
       <div class="kpi-grid-2">
         <div class="card" style="margin-bottom:24px;">
-          <span class="card-title" style="color:var(--dark-blue); font-size:11px"><span style="color:var(--ml-yellow);font-size:18px;margin-right:8px">●</span> TENDÊNCIA & SIMULAÇÃO</span>
-          <span id="visaoLabelGer" style="font-size:9px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px; margin-bottom:10px; display:block;">VISÃO: DIA</span>
+          <span class="card-title" style="color:var(--text-1); font-size:11px; letter-spacing:1px;"><span style="color:var(--neon-blue);font-size:18px;margin-right:8px;text-shadow:0 0 10px var(--neon-blue);">●</span> TENDÊNCIA HISTÓRICA</span>
+          <span id="visaoLabelGer" style="font-size:9px;font-weight:800;color:var(--text-4);text-transform:uppercase;letter-spacing:1px; margin-bottom:10px; display:block;">VISÃO: DIA</span>
           <div class="chart-placeholder"><canvas id="c-line-gerencial"></canvas></div>
         </div>
 
         <div class="card clickable-card" style="margin-bottom:24px;">
-          <span class="card-title" style="color:var(--dark-blue); font-size:11px"><i class="fa-solid fa-chart-simple" style="color:var(--ml-blue);font-size:16px;margin-right:8px"></i> VOLUMETRIA OPERACIONAL</span>
-          <span style="font-size:9px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px; margin-bottom:10px; display:block;">DISTRIBUIÇÃO DE PRAZOS</span>
+          <span class="card-title" style="color:var(--text-1); font-size:11px; letter-spacing:1px;"><i class="fa-solid fa-chart-simple" style="color:var(--neon-blue);font-size:16px;margin-right:8px;text-shadow:0 0 10px var(--neon-blue-dim)"></i> DISTRIBUIÇÃO VOLUMÉTRICA</span>
+          <span style="font-size:9px;font-weight:800;color:var(--text-4);text-transform:uppercase;letter-spacing:1px; margin-bottom:10px; display:block;">PRAZO VS ATRASO</span>
           <div class="chart-placeholder"><canvas id="c-bar-volumetria"></canvas></div>
         </div>
       </div>
 
       <div class="wf-grid">
         <div class="card">
-          <span class="card-title" style="color:var(--ml-blue); font-size:13px; font-weight:900;"><i class="fa-solid fa-chart-column" style="margin-right:8px"></i> ANÁLISE DE EROSÃO (WATERFALL)</span>
+          <span class="card-title" style="color:var(--text-1); font-size:13px; font-weight:900; letter-spacing:1px;"><i class="fa-solid fa-water" style="margin-right:8px; color:var(--neon-blue)"></i> ANÁLISE DE EROSÃO (WATERFALL)</span>
           <div class="wf-area" id="waterfall-area"></div>
         </div>
 
         <div class="card">
-          <span class="card-title" style="color:var(--ml-blue); font-size:13px; font-weight:900;"><i class="fa-solid fa-circle-info" style="margin-right:8px"></i> DETALHAMENTO DE GANHOS POR REGRA</span>
-          <div style="margin-top:12px; font-size:10px; font-weight:900; color:var(--text-muted); display:flex; justify-content:space-between; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:20px;">
-            <span><i class="fa-solid fa-database" style="margin-right:6px;"></i> REGRAS ATIVAS</span>
-            <span id="baseInfoLbl">BASE: —</span>
+          <span class="card-title" style="color:var(--text-1); font-size:13px; font-weight:900; letter-spacing:1px;"><i class="fa-solid fa-layer-group" style="margin-right:8px; color:var(--ml-yellow)"></i> ATIVOS DE COMPENSAÇÃO</span>
+          <div style="margin-top:16px; font-size:9px; font-weight:900; color:var(--text-4); display:flex; justify-content:space-between; text-transform:uppercase; letter-spacing:1px; margin-bottom:20px; border-bottom:1px solid var(--glass-border); padding-bottom:8px;">
+            <span><i class="fa-solid fa-database" style="margin-right:6px;"></i> STATUS DO MOTOR DE REGRAS</span>
+            <span id="baseInfoLbl" style="color:var(--neon-blue)">CONEXÃO: —</span>
           </div>
           <div class="rules-list" id="lista-regras">
-            <div style="text-align:center; padding: 30px; color:var(--text-muted); font-size: 12px; font-weight: 600;">Aguardando dados...</div>
+            <div style="text-align:center; padding: 30px; color:var(--text-4); font-size: 11px; font-weight: 800; letter-spacing:1px; text-transform:uppercase;">Sistema em standby...</div>
           </div>
         </div>
       </div>
@@ -647,72 +728,73 @@
 
     <div id="aporte" class="tab-pane">
       <div class="card" style="margin-bottom:24px;">
-        <span class="card-title" style="color:var(--dark-blue); font-size:11px"><span style="color:var(--ml-yellow);font-size:18px;margin-right:8px">●</span> TENDÊNCIA & SIMULAÇÃO</span>
-        <span id="visaoLabelAporte" style="font-size:9px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px; margin-bottom:10px; display:block;">VISÃO: DIA</span>
+        <span class="card-title" style="color:var(--text-1); font-size:11px; letter-spacing:1px;"><span style="color:var(--ml-yellow);font-size:18px;margin-right:8px; text-shadow:0 0 10px var(--ml-yellow-glow)">●</span> PROJEÇÃO DE APORTE ALGORÍTMICO</span>
+        <span id="visaoLabelAporte" style="font-size:9px;font-weight:800;color:var(--text-4);text-transform:uppercase;letter-spacing:1px; margin-bottom:10px; display:block;">VISÃO: DIA</span>
         <div class="chart-placeholder"><canvas id="c-line-aporte"></canvas></div>
       </div>
 
       <div class="table-box" style="margin-top:0; display:block;">
-        <div style="padding:20px 24px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-light); background:white;">
-          <span style="font-size:14px; font-weight:900; color:var(--dark-blue); letter-spacing:0.5px; display:flex; align-items:center;">
-            <div style="width:6px; height:18px; background:var(--ml-blue); margin-right:12px; border-radius:4px;"></div> DETALHAMENTO DE APORTE
+        <div style="padding:20px 24px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--glass-border); background:rgba(0,0,0,0.3); border-radius:var(--radius-lg) var(--radius-lg) 0 0;">
+          <span style="font-size:14px; font-weight:900; color:var(--text-1); letter-spacing:1px; display:flex; align-items:center;">
+            <div style="width:4px; height:16px; background:var(--neon-blue); margin-right:12px; border-radius:4px; box-shadow:0 0 10px var(--neon-blue);"></div> MAPA DE CULPABILIDADE
           </span>
-          <button style="background:white; border:1px solid #CBD5E1; padding:12px 20px; border-radius:8px; font-size:11px; font-weight:900; cursor:pointer; color:var(--text-dark); display:flex; align-items:center; gap:8px; transition:0.2s; box-shadow: var(--shadow-sm);" onclick="toggleConfigAporte()">
-            <i class="fa-solid fa-sliders" style="color:var(--ml-blue); font-size:14px"></i> CONFIGURAR APORTE
+          <button style="background:rgba(255,255,255,0.05); border:1px solid var(--glass-border); padding:10px 20px; border-radius:var(--radius-md); font-size:10px; font-weight:900; cursor:pointer; color:var(--text-2); display:flex; align-items:center; gap:8px; transition:0.2s; letter-spacing:1px; text-transform:uppercase;" onclick="toggleConfigAporte()">
+            <i class="fa-solid fa-sliders" style="color:var(--ml-yellow); font-size:14px"></i> PARÂMETROS
           </button>
         </div>
 
-        <div id="configAporte" style="background: #F8FAFC; border-bottom: 1px solid var(--border-light); display: none; animation: fadeIn 0.3s ease;">
+        <div id="configAporte" style="background: rgba(16,21,33,0.8); border-bottom: 1px solid var(--glass-border); display: none; animation: slideUp 0.3s ease;">
           <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px 25px 0 25px;">
-            <h4 style="font-size: 11px; font-weight: 900; color: #475569; text-transform: uppercase; letter-spacing: 0.5px;">SELECIONE AS OCORRÊNCIAS:</h4>
-            <button style="background:none; border:none; color:var(--ml-blue); font-size:11px; font-weight:900; cursor:pointer; text-transform:uppercase; letter-spacing: 0.5px;">RESTAURAR</button>
+            <h4 style="font-size: 10px; font-weight: 900; color: var(--text-3); text-transform: uppercase; letter-spacing: 1px;">ISOLAR VARIÁVEIS DE CÁLCULO:</h4>
+            <button style="background:none; border:1px solid rgba(0,225,255,0.3); padding:6px 12px; border-radius:6px; color:var(--neon-blue); font-size:9px; font-weight:900; cursor:pointer; text-transform:uppercase; letter-spacing: 1px; transition:0.2s;" onmouseover="this.style.background='var(--neon-blue-dim)'" onmouseout="this.style.background='none'">Resetar Motor</button>
           </div>
           <div class="ca-grid" id="checkboxGrid"></div>
         </div>
 
-        <table id="table-aporte">
-          <thead><tr>
-            <th>OCORRÊNCIA</th>
-            <th style="text-align:center" id="aporteDiaHdr">DIA</th>
-            <th style="text-align:center">IMPACTO</th>
-          </tr></thead>
-          <tbody id="tabela-aporte-real">
-            <tr class="empty-row"><td colspan="3">Aguardando dados...</td></tr>
-          </tbody>
-        </table>
+        <div style="background:var(--glass-bg); padding:24px; border-radius:0 0 var(--radius-lg) var(--radius-lg); border:1px solid var(--glass-border); border-top:none; box-shadow:var(--shadow-float);">
+            <table id="table-aporte">
+            <thead><tr>
+                <th>DIAGNÓSTICO SISTÊMICO</th>
+                <th style="text-align:center" id="aporteDiaHdr">TIME-FRAME</th>
+                <th style="text-align:center">IMPACTO NO GAP</th>
+            </tr></thead>
+            <tbody id="tabela-aporte-real">
+                <tr class="empty-row"><td colspan="3">Aguardando dados...</td></tr>
+            </tbody>
+            </table>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="chat-fab" onclick="toggleChat()"><i class="fa-regular fa-comment-dots" style="margin-top:2px;"></i></div>
+  <div class="chat-fab" onclick="toggleChat()"><i class="fa-solid fa-comment-nodes"></i></div>
 
   <div class="chat-window" id="chatWindow">
-    <div style="background: #1E293B; color: white; padding: 24px; display: flex; align-items: center; justify-content: space-between;">
+    <div style="background: rgba(0,0,0,0.6); border-bottom:1px solid var(--glass-border); padding: 24px; display: flex; align-items: center; justify-content: space-between;">
       <div style="display:flex; align-items:center; gap:16px">
-        <div style="background:var(--ml-yellow); width:46px; height:46px; border-radius:12px; color:#111; display:flex; align-items:center; justify-content:center; font-size:22px; box-shadow: 0 4px 10px rgba(255,241,89,0.2);"><i class="fa-solid fa-robot"></i></div>
+        <div style="background:var(--ml-yellow); width:46px; height:46px; border-radius:12px; color:var(--bg-base); display:flex; align-items:center; justify-content:center; font-size:22px; box-shadow: 0 0 20px rgba(255,230,0,0.3);"><i class="fa-solid fa-microchip"></i></div>
         <div>
-          <div style="font-size:16px; font-weight:900; letter-spacing:0.5px;">FIRST MILE ASSISTANT</div>
-          <div style="font-size:10px; font-weight:700; color:#94A3B8; text-transform:uppercase; letter-spacing:1px; margin-top:4px;">Operacional Avançado</div>
+          <div style="font-size:14px; font-weight:900; letter-spacing:1px; color:var(--text-1);">FIRST MILE COPILOT</div>
+          <div style="font-size:9px; font-weight:800; color:var(--neon-green); text-transform:uppercase; letter-spacing:2px; margin-top:4px;"><i class="fa-solid fa-circle-dot" style="font-size:6px; margin-right:4px;"></i> ONLINE</div>
         </div>
       </div>
-      <i class="fa-solid fa-xmark" style="cursor:pointer; font-size:24px; color: #94A3B8;" onclick="toggleChat()"></i>
+      <i class="fa-solid fa-xmark" style="cursor:pointer; font-size:20px; color: var(--text-4); transition:0.2s;" onmouseover="this.style.color='var(--neon-red)'" onmouseout="this.style.color='var(--text-4)'" onclick="toggleChat()"></i>
     </div>
 
-    <div id="chatMessages" style="flex: 1; padding: 28px; background: white; overflow-y: auto; display: flex; flex-direction: column;">
+    <div id="chatMessages" style="flex: 1; padding: 24px; background: rgba(16,21,33,0.5); overflow-y: auto; display: flex; flex-direction: column;">
       <div class="chat-bubble-bot">
-        Olá! Eu sou o assistente FIRST MILE integrado.<br>
-        Posso explicar o cálculo, tolerância, e mostrar o status da base atual.
+        Sistemas operacionais integrados.<br>
+        Em que posso auxiliar com a telemetria hoje?
       </div>
-      <div style="font-size:11px; font-weight:900; color:var(--text-muted); margin-top:10px; margin-bottom:16px; text-transform:uppercase; letter-spacing:1px;">Dúvidas Frequentes</div>
-      <button class="faq-btn" onclick="sendFaq(this)">O QUE É A TOLERÂNCIA DE 21MIN?</button>
-      <button class="faq-btn" onclick="sendFaq(this)">CÁLCULO DA PERFORMANCE</button>
-      <button class="faq-btn" onclick="sendFaq(this)">STATUS DA BASE AGORA</button>
+      <div style="font-size:9px; font-weight:900; color:var(--text-4); margin-top:16px; margin-bottom:12px; text-transform:uppercase; letter-spacing:1px; text-align:center;">MÓDULOS DE ANÁLISE RÁPIDA</div>
+      <button class="faq-btn" onclick="sendFaq(this)">Explicar tolerância (21 min)</button>
+      <button class="faq-btn" onclick="sendFaq(this)">Métrica de cálculo de Performance</button>
+      <button class="faq-btn" onclick="sendFaq(this)">Resumo do banco de dados</button>
     </div>
 
-    <div style="padding: 24px; background: #F8FAFC; border-top: 1px solid var(--border-light); display: flex; gap: 12px; align-items: center;">
-      <input type="text" id="chatInput" placeholder="Pergunte algo..." style="flex: 1; border: 1px solid #CBD5E1; background: white; padding: 16px 20px; border-radius: 30px; font-size: 13px; font-weight: 500; outline: none;"
-        onkeypress="handleChatKeyPress(event)">
-      <button onclick="sendMessage()" style="background: var(--text-muted); color: white; border: none; width: 48px; height: 48px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px;">
+    <div style="padding: 20px 24px; background: rgba(0,0,0,0.6); border-top: 1px solid var(--glass-border); display: flex; gap: 12px; align-items: center;">
+      <input type="text" id="chatInput" placeholder="Inserir comando..." style="flex: 1; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color:var(--text-1); padding: 14px 20px; border-radius: 30px; font-size: 12px; font-weight: 600; outline: none; transition:0.2s;" onfocus="this.style.borderColor='var(--neon-blue)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'" onkeypress="handleChatKeyPress(event)">
+      <button onclick="sendMessage()" style="background: var(--ml-yellow); color: var(--bg-base); border: none; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow:0 0 15px rgba(255,230,0,0.2); transition:0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
         <i class="fa-solid fa-paper-plane" style="margin-right:2px; margin-top:2px;"></i>
       </button>
     </div>
@@ -737,6 +819,10 @@
     const rowsPerPage = 50;
     let currentTableFilter = 'TODOS'; 
 
+    // CONFIG DE GRÁFICOS PARA O DARK MODE
+    Chart.defaults.color = "#94A3B8";
+    Chart.defaults.font.family = "'Inter', sans-serif";
+
     let chartRotas, chartAndamento, chartFinalizado, chartLineGerencial, chartLineAporte, chartBarVolumetria;
     let CURRENT_BASE = { totalRotas: 0, performance: "0.00%" };
 
@@ -757,7 +843,7 @@
       id: 'shadowPlugin',
       beforeDatasetsDraw(chart, args, pluginOptions) {
         const { ctx } = chart; ctx.save();
-        ctx.shadowColor = pluginOptions?.shadowColor || 'rgba(0,0,0,0.12)';
+        ctx.shadowColor = pluginOptions?.shadowColor || 'rgba(0,0,0,0.5)';
         ctx.shadowBlur = pluginOptions?.shadowBlur || 14;
         ctx.shadowOffsetX = pluginOptions?.shadowOffsetX || 0;
         ctx.shadowOffsetY = pluginOptions?.shadowOffsetY || 8;
@@ -781,47 +867,43 @@
       const month = String(now.getMonth() + 1).padStart(2, '0');
       const hrs = String(now.getHours()).padStart(2, '0');
       const mins = String(now.getMinutes()).padStart(2, '0');
-      document.getElementById('liveClock').innerText = `ATUALIZADO: ${day}/${month} ${hrs}:${mins}`;
+      document.getElementById('liveClock').innerText = `DATA SYNC: ${day}/${month} ${hrs}:${mins} BRT`;
     }
 
     function setStatus(kind, msg) {
       const el = document.getElementById("status-pill"); if (!el) return;
       const iconMap = {
         loading: `<div class="spinner"></div>`,
-        ok: `<i class="fa-solid fa-check-circle" style="color:var(--ml-green);"></i>`,
-        warn: `<i class="fa-solid fa-triangle-exclamation" style="color:#7C6500;"></i>`,
-        err: `<i class="fa-solid fa-triangle-exclamation" style="color:var(--ml-red);"></i>`
+        ok: `<i class="fa-solid fa-satellite-dish" style="color:var(--neon-green);"></i>`,
+        warn: `<i class="fa-solid fa-triangle-exclamation" style="color:var(--neon-amber);"></i>`,
+        err: `<i class="fa-solid fa-radiation" style="color:var(--neon-red);"></i>`
       };
       el.style.opacity = "1"; el.style.visibility = "visible";
       el.innerHTML = `${iconMap[kind] || iconMap['loading']} ${msg}`;
       
       if (kind !== 'loading') {
-        setTimeout(() => { el.style.opacity = "0"; el.style.visibility = "hidden"; }, 3500);
+        setTimeout(() => { el.style.opacity = "0"; el.style.visibility = "hidden"; transform = "translateX(-50%) scale(0.95)" }, 3500);
       }
     }
 
     function fetchRealGoogleSheetData(btnElement = null) {
       if (btnElement) { btnElement.classList.add('fa-spin'); }
-      setStatus("loading", `LENDO DADOS...`);
+      setStatus("loading", `BAIXANDO DADOS DE TELEMETRIA...`);
       
       const filtersContainer = document.getElementById('filters-container');
       document.querySelectorAll('.filter-box').forEach(box => box.remove());
       if (!document.getElementById('filters-loading')) {
           const loadingElement = document.createElement('div');
           loadingElement.id = 'filters-loading';
-          loadingElement.innerHTML = '<div class="spinner" style="border-top-color:var(--text-muted)"></div> Carregando filtros...';
+          loadingElement.innerHTML = '<div class="spinner" style="border-top-color:var(--text-3)"></div> Inicializando parâmetros...';
           filtersContainer.insertBefore(loadingElement, document.getElementById('clearFiltersBtn'));
       }
 
       if (typeof google === 'undefined' || typeof google.script === 'undefined') {
-        setStatus("warn", "MODO TESTE LOCAL (DADOS DINÂMICOS)");
+        setStatus("warn", "MODO DESENVOLVIMENTO (MOCK DATA)");
         setTimeout(() => {
             const seed = (calStartDate || new Date()).getDate() + (calStartDate || new Date()).getMonth() * 31;
-            const pseudoRandom = (multiplier) => {
-                let x = Math.sin(seed * multiplier) * 10000;
-                return x - Math.floor(x);
-            };
-
+            const pseudoRandom = (multiplier) => { let x = Math.sin(seed * multiplier) * 10000; return x - Math.floor(x); };
             const regionais = ["SPIO", "SUL 1", "SP2", "FULL", "MG", "SP1"];
             const hubs = ["RAO", "MARINGA", "ARE", "GRU II", "MAR", "CWB", "RC", "MG", "SBC"];
 
@@ -832,37 +914,23 @@
             for(let i=0; i<totalRotas; i++) {
                 const regional = regionais[Math.floor(pseudoRandom(i+2) * regionais.length)];
                 const hub = hubs[Math.floor(pseudoRandom(i+3) * hubs.length)];
-                
                 const p = pseudoRandom(i+4);
                 let status, atrasos = 0, ocorrencia = "-";
 
-                if (p < 0.60) { 
-                    status = 'CLOSED_UN'; 
-                    if(pseudoRandom(i+5) < 0.2) { atrasos = 1; ocorrencia = "ATRASO OPERACIONAL"; }
-                } else if (p < 0.85) { 
-                    status = 'DISPATCHED'; 
-                    if(pseudoRandom(i+6) < 0.3) { atrasos = 1; ocorrencia = "TRÂNSITO"; }
-                } else { 
-                    status = 'NEW'; 
-                }
+                if (p < 0.60) { status = 'CLOSED_UN'; if(pseudoRandom(i+5) < 0.2) { atrasos = 1; ocorrencia = "ATRASO NA EXPEDIÇÃO"; } } 
+                else if (p < 0.85) { status = 'DISPATCHED'; if(pseudoRandom(i+6) < 0.3) { atrasos = 1; ocorrencia = "TRÂNSITO INTENSO"; } } 
+                else { status = 'NEW'; }
 
                 mockData.push({
-                    [COLUNAS.status]: status,
-                    [COLUNAS.atrasos]: atrasos,
-                    [COLUNAS.ocorrencia]: ocorrencia,
-                    "DATA_CRIACAO": dataExibicao,
-                    "REGIONAL": regional,
-                    "ROUTE_ID": `RT-${regional}-${i}`,
-                    "HUB": hub
+                    [COLUNAS.status]: status, [COLUNAS.atrasos]: atrasos, [COLUNAS.ocorrencia]: ocorrencia,
+                    "DATA_CRIACAO": dataExibicao, "REGIONAL": regional, "ROUTE_ID": `SYS-${regional}-${i}`, "HUB": hub
                 });
             }
-            
             if (btnElement) { btnElement.classList.remove('fa-spin'); }
             processServerResponse({
-                ok: true,
-                rows: mockData,
+                ok: true, rows: mockData,
                 headers: ["CASE_STATUS", "Q_SHPS_COLLECTED_LATE_DM_S", "CLOSE_DETAIL_MONITORING", "DATA_CRIACAO", "REGIONAL", "ROUTE_ID", "HUB"],
-                info: { sheetName: "Base de Teste Dinâmica", totalLido: mockData.length }
+                info: { sheetName: "Mock Environment", totalLido: mockData.length }
             });
         }, 800);
         return;
@@ -877,27 +945,27 @@
         .withFailureHandler((err) => {
             if (btnElement) { btnElement.classList.remove('fa-spin'); }
             console.error(err);
-            setStatus("err", "Falha de Conexão com Apps Script.");
+            setStatus("err", "FALHA DE COMUNICAÇÃO (APPS SCRIPT).");
         })
         .getFirstMileData({ start: startISO, end: endISO }); 
     }
     
     function processServerResponse(res) {
         try {
-            if (!res) { setStatus("err", "Resposta vazia do servidor."); return; }
-            if (res.ok === false) { setStatus("err", res.erro || "Erro no Script. Verifique os nomes das colunas."); return; }
+            if (!res) { setStatus("err", "PACKAGE NULL RECEBIDO."); return; }
+            if (res.ok === false) { setStatus("err", res.erro || "DATA ERROR NO SCRIPT."); return; }
 
             globalDataArray = res.rows || [];
             globalHeaders = res.headers || [];
 
-            document.getElementById("baseInfoLbl").innerText = `BASE: ${res.info.sheetName} • ${res.info.totalLido} linhas`;
-            setStatus("ok", `BASE ATUALIZADA (${res.info.totalLido})`);
+            document.getElementById("baseInfoLbl").innerText = `${res.info.sheetName} // ${res.info.totalLido} ROWS`;
+            setStatus("ok", `DADOS SINCRONIZADOS [${res.info.totalLido}]`);
             
             populateFilters(globalDataArray);
             applyClientSideFilters();
         } catch (e) {
-            console.error("Erro no processServerResponse:", e);
-            setStatus("err", "Erro ao desenhar o painel.");
+            console.error("Sys Error:", e);
+            setStatus("err", "ERRO DE RENDERIZAÇÃO DO ENGINE.");
         }
     }
 
@@ -920,7 +988,7 @@
                     const filterBox = document.createElement('div'); filterBox.className = 'filter-box';
                     const label = document.createElement('label'); label.innerText = filterConfig[columnName];
                     const select = document.createElement('select'); select.id = `filter-${columnName}`; select.onchange = applyClientSideFilters;
-                    select.innerHTML = '<option value="">(TUDO)</option>' + uniqueValues.map(val => `<option value="${val}">${val}</option>`).join('');
+                    select.innerHTML = '<option value="">[ TODOS OS REGISTROS ]</option>' + uniqueValues.map(val => `<option value="${val}">${val}</option>`).join('');
                     filterBox.appendChild(label); filterBox.appendChild(select);
                     filtersContainer.insertBefore(filterBox, document.getElementById('clearFiltersBtn'));
                 }
@@ -954,7 +1022,7 @@
     // ===================================================================================
     function renderDashboard(dataArray) {
       if (!dataArray) return;
-      document.getElementById('aiExecutiveBox').innerText = 'A base de dados foi processada. Clique nos gráficos ou cards para detalhar as rotas.';
+      document.getElementById('aiExecutiveBox').innerText = 'A telemetria foi processada com sucesso. O motor gráfico está pronto para exploração profunda.';
 
       let totalRotas = dataArray.length;
       let and = 0, fin = 0, pen = 0, can = 0;
@@ -982,12 +1050,11 @@
 
         switch (row._calcStatus) {
             case 'ANDAMENTO':
-                and++;
-                andamentoRows.push(row);
+                and++; andamentoRows.push(row);
                 if (row._calcPrazo === 'NO PRAZO') andP++; 
                 else { 
                     andA++; 
-                    let motivo = (valOcorrencia && valOcorrencia !== '-' && valOcorrencia !== 'NULL') ? valOcorrencia : "SEM JUSTIFICATIVA";
+                    let motivo = (valOcorrencia && valOcorrencia !== '-' && valOcorrencia !== 'NULL') ? valOcorrencia : "S/ DIAGNÓSTICO";
                     ocorrenciasAndamento[motivo] = (ocorrenciasAndamento[motivo] || 0) + 1;
                 }
                 break;
@@ -996,16 +1063,12 @@
                 if (row._calcPrazo === 'NO PRAZO') finP++; 
                 else { 
                     finA++; 
-                    let motivo = (valOcorrencia && valOcorrencia !== '-' && valOcorrencia !== 'NULL') ? valOcorrencia : "ATRASO OPERACIONAL";
+                    let motivo = (valOcorrencia && valOcorrencia !== '-' && valOcorrencia !== 'NULL') ? valOcorrencia : "FALHA OPERACIONAL";
                     ocorrenciasFinalizado[motivo] = (ocorrenciasFinalizado[motivo] || 0) + 1;
                 }
                 break;
-            case 'PENDENTE':
-                pen++;
-                break;
-            case 'CANCELADO':
-                can++;
-                break;
+            case 'PENDENTE': pen++; break;
+            case 'CANCELADO': can++; break;
         }
       });
       
@@ -1035,9 +1098,10 @@
       document.getElementById('val-fin-prazo-cnt').innerText = finP.toLocaleString('pt-BR'); document.getElementById('val-fin-prazo-pct').innerText = `(${formatPct(finP, fin)}%)`;
       document.getElementById('val-fin-atraso-cnt').innerText = finA.toLocaleString('pt-BR'); document.getElementById('val-fin-atraso-pct').innerText = `(${formatPct(finA, fin)}%)`;
 
-      updateChartData(chartRotas, [and, fin, pen, can], ['#3483FA', '#2D3238', '#888888', '#F59E0B']);
-      updateChartData(chartAndamento, [andP, andA], ['#00A650', '#F23D4F']);
-      updateChartData(chartFinalizado, [finP, finA], ['#00A650', '#F23D4F']);
+      // Cores em Neon Mode
+      updateChartData(chartRotas, [and, fin, pen, can], ['#00E1FF', '#00FF88', '#475569', '#FFB000']);
+      updateChartData(chartAndamento, [andP, andA], ['#00FF88', '#FF3366']);
+      updateChartData(chartFinalizado, [finP, finA], ['#00FF88', '#FF3366']);
 
       const totalNoPrazo = andP + finP; const totalAtrasados = andA + finA; const universo = totalNoPrazo + totalAtrasados;
       let performance = universo > 0 ? (totalNoPrazo / universo) * 100 : 100;
@@ -1073,7 +1137,8 @@
         } else {
             dataset.data = data.map(v => v || 0.001); 
             dataset.backgroundColor = colors;
-            dataset.borderColor = '#FFFFFF';
+            dataset.borderColor = '#06080D'; // Fundo base como borda
+            dataset.borderWidth = 3;
         }
         chart.update();
     }
@@ -1087,31 +1152,31 @@
         let ofensoresHTML = '', tabelaAporte = '', checkboxesHTML = '', wfHTML = '';
         const totalAtrasados = sortedOfensores.reduce((sum, [, count]) => sum + count, 0);
 
-        wfHTML = `<div class="wf-col" onclick="openGerencialDetails('GERAL_PRAZO', 'Performance Inicial (No Prazo)')" data-title="OBJETIVO INICIAL" data-val="100%" style="height:100%"><div class="wf-val">100%</div><div class="wf-bar start" style="width:100%" data-height="100%"></div><div class="wf-lbl">OBJETIVO</div></div>`;
+        wfHTML = `<div class="wf-col" onclick="openGerencialDetails('GERAL_PRAZO', 'Performance Inicial (No Prazo)')" data-title="EXPECTATIVA INICIAL" data-val="100%" style="height:100%"><div class="wf-val">100%</div><div class="wf-bar start" style="width:100%" data-height="100%"></div><div class="wf-lbl">INÍCIO</div></div>`;
 
         const gapTotal = (100 - performance).toFixed(2);
-        tabelaAporte += `<tr class="total-row" onclick="openAporteDetails('IMPACTO_TOTAL')"><td>IMPACTO TOTAL DOS ATRASOS LIDOS</td><td>${totalAtrasados.toLocaleString('pt-BR')}</td><td>-${gapTotal}%</td></tr>`;
+        tabelaAporte += `<tr class="total-row" onclick="openAporteDetails('IMPACTO_TOTAL')"><td>IMPACTO TOTAL DOS DESVIOS</td><td>${totalAtrasados.toLocaleString('pt-BR')}</td><td>-${gapTotal}%</td></tr>`;
 
         let currentWfHeight = 100;
         sortedOfensores.forEach(([oc, count], index) => {
             let impactoPct = universo > 0 ? (count / universo * 100).toFixed(2) : "0.00";
-            if (index < 4) ofensoresHTML += `<li onclick="openAporteDetails('${oc}')"><span style="font-weight:800; color:var(--text-dark)">${oc}</span><span style="color:var(--ml-red);background:#FFF1F2;padding:4px 8px;border-radius:6px;font-weight:900;">- ${impactoPct}%</span></li>`;
+            if (index < 4) ofensoresHTML += `<li onclick="openAporteDetails('${oc}')"><span style="font-weight:800; color:var(--text-2)">${oc}</span><span style="color:var(--bg-base);background:var(--neon-red);padding:4px 8px;border-radius:6px;font-weight:900;">- ${impactoPct}%</span></li>`;
             tabelaAporte += `<tr onclick="openAporteDetails('${oc}')"><td>${oc}</td><td>${count.toLocaleString('pt-BR')}</td><td>-${impactoPct}%</td></tr>`;
-            checkboxesHTML += `<div class="ca-item active" onclick="toggleCheckboxCard(this)"><input type="checkbox" checked onclick="event.preventDefault()"><div class="ca-text"><span class="ca-title">${oc.substring(0, 30)}</span><span class="ca-subtitle">OFICIAL</span></div></div>`;
+            checkboxesHTML += `<div class="ca-item active" onclick="toggleCheckboxCard(this)"><input type="checkbox" checked onclick="event.preventDefault()"><div class="ca-text"><span class="ca-title">${oc.substring(0, 30)}</span><span class="ca-subtitle">PROCESSADO</span></div></div>`;
 
             if (index < 8 && parseFloat(impactoPct) > 0) {
                 currentWfHeight -= parseFloat(impactoPct); let dispH = Math.max(currentWfHeight, 15); let shortName = oc.length > 6 ? oc.substring(0, 6) + ".." : oc;
-                wfHTML += `<div class="wf-col" onclick="openGerencialDetails('OCORRENCIA_${oc}', 'Ofensor: ${oc}')" data-title="${oc}" data-val="-${impactoPct}%" style="height:${dispH}%"><div class="wf-val">-${impactoPct}%</div><div class="wf-bar loss" style="width:100%" data-height="100%"></div><div class="wf-lbl">${shortName}</div></div>`;
+                wfHTML += `<div class="wf-col" onclick="openGerencialDetails('OCORRENCIA_${oc}', 'Ofensor: ${oc}')" data-title="${oc}" data-val="-${impactoPct}%" style="height:${dispH}%"><div class="wf-val" style="color:var(--neon-red)">-${impactoPct}%</div><div class="wf-bar loss" style="width:100%" data-height="100%"></div><div class="wf-lbl">${shortName}</div></div>`;
             }
         });
         
         if (sortedOfensores.length === 0) {
-            ofensoresHTML = '<li style="color:var(--text-muted); justify-content:center; padding: 10px;">Sem ocorrências mapeadas.</li>';
-            tabelaAporte = `<tr class="empty-row"><td colspan="3">Nenhum ofensor lido.</td></tr>`;
-            checkboxesHTML = `<div style="color:var(--text-muted); grid-column: span 4; font-size: 11px; text-align:center; padding:20px;">Sem dados para simular.</div>`;
+            ofensoresHTML = '<li style="color:var(--text-4); justify-content:center; padding: 10px;">Sistema limpo. Nenhum desvio.</li>';
+            tabelaAporte = `<tr class="empty-row"><td colspan="3">Matriz zerada.</td></tr>`;
+            checkboxesHTML = `<div style="color:var(--text-4); grid-column: span 4; font-size: 11px; text-align:center; padding:20px; letter-spacing:1px; text-transform:uppercase;">Nenhum dado ativo no motor.</div>`;
         }
 
-        wfHTML += `<div class="wf-col" onclick="openGerencialDetails('GERAL_PRAZO', 'Performance Real (No Prazo)')" data-title="PERFORMANCE REAL" data-val="${performance.toFixed(2)}%" style="height:${performance}%"><div class="wf-val" style="color:var(--ml-blue); font-size:13px">${performance.toFixed(0)}%</div><div class="wf-bar final" style="width:100%" data-height="100%"></div><div class="wf-lbl">FINAL</div></div>`;
+        wfHTML += `<div class="wf-col" onclick="openGerencialDetails('GERAL_PRAZO', 'Performance Real (No Prazo)')" data-title="PERFORMANCE CONSOLIDADA" data-val="${performance.toFixed(2)}%" style="height:${performance}%"><div class="wf-val" style="color:var(--ml-yellow); font-size:13px">${performance.toFixed(0)}%</div><div class="wf-bar final" style="width:100%" data-height="100%"></div><div class="wf-lbl">RESULTADO</div></div>`;
         
         document.getElementById('lista-top-ofensores').innerHTML = ofensoresHTML;
         document.getElementById('tabela-aporte-real').innerHTML = tabelaAporte;
@@ -1125,29 +1190,21 @@
     // ===================================================================================
      function openGerencialDetails(filterType, title) {
         switchTab('monitoramento', document.querySelector('.tab[onclick*="monitoramento"]'));
-        setTimeout(() => {
-            openTableDetails(filterType, title);
-        }, 50);
+        setTimeout(() => { openTableDetails(filterType, title); }, 50);
     }
     
     function openAporteDetails(ocorrenciaNome) {
-        let title = `Detalhes da Ocorrência: ${ocorrenciaNome}`;
+        let title = `DIAGNÓSTICO: ${ocorrenciaNome}`;
         let filterType = `OCORRENCIA_${ocorrenciaNome}`;
-        if (ocorrenciaNome === 'IMPACTO_TOTAL') {
-            title = 'Detalhes de Todas as Ocorrências de Atraso';
-            filterType = 'GERAL_ATRASO';
-        }
-        
+        if (ocorrenciaNome === 'IMPACTO_TOTAL') { title = 'TODOS OS DESVIOS CONSOLIDADOS'; filterType = 'GERAL_ATRASO'; }
         openGerencialDetails(filterType, title);
     }
     
     function openTableDetails(filterType, title) {
       currentTableFilter = filterType;
-      
       const section = document.getElementById('dynamic-details');
       section.classList.add('active');
       document.getElementById('details-title').innerText = title;
-      
       showDetails(filterType);
       setTimeout(() => section.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
     }
@@ -1164,15 +1221,14 @@
             const isAtrasado = r._calcPrazo === 'ATRASADO';
             if (!isAtrasado) return false;
 
-            let motivoRow = (String(r[COLUNAS.ocorrencia] || "").toUpperCase().trim() || "SEM JUSTIFICATIVA");
-            if(r._calcStatus === 'FINALIZADO' && (motivoRow === "SEM JUSTIFICATIVA" || motivoRow === '' || motivoRow === '-' || motivoRow === 'NULL')) {
-                motivoRow = "ATRASO OPERACIONAL";
+            let motivoRow = (String(r[COLUNAS.ocorrencia] || "").toUpperCase().trim() || "S/ DIAGNÓSTICO");
+            if(r._calcStatus === 'FINALIZADO' && (motivoRow === "S/ DIAGNÓSTICO" || motivoRow === '' || motivoRow === '-' || motivoRow === 'NULL')) {
+                motivoRow = "FALHA OPERACIONAL";
             }
             return motivoRow === ocorrenciaToFilter;
         }
         
         if (filterType === 'TODOS') return true;
-        
         if (p1 === 'GPS') return r._calcStatus === 'ANDAMENTO' && r._hasGPS === (p2 === 'COM');
         if (p1 === 'PENDENTE' || p1 === 'CANCELADO') return r._calcStatus === p1;
         if (p1 + (p2 ? `_${p2}` : '') === 'ANDAMENTO_TOTAL') return r._calcStatus === 'ANDAMENTO';
@@ -1187,7 +1243,7 @@
         return statusMatch && prazoMatch;
       });
 
-      document.getElementById('details-count').innerText = `${dataForDetailsTable.length} ROTAS`;
+      document.getElementById('details-count').innerText = `${dataForDetailsTable.length} ROWS`;
       currentPage = 1; 
       renderTablePage();
     }
@@ -1220,15 +1276,15 @@
         else if(r._calcStatus === 'FINALIZADO') badgeClass = 'bg-green';
         else if(r._calcStatus === 'CANCELADO') badgeClass = 'bg-orange';
         
-        const sitHtml = r._calcPrazo === 'ATRASADO' ? `<span class="status-badge bg-red"><i class="fa-regular fa-clock"></i> ATRASO</span>` : `<span class="status-badge bg-green"><i class="fa-solid fa-check"></i> NO PRAZO</span>`;
+        const sitHtml = r._calcPrazo === 'ATRASADO' ? `<span class="status-badge bg-red"><i class="fa-solid fa-triangle-exclamation"></i> ATRASO</span>` : `<span class="status-badge bg-green"><i class="fa-solid fa-check"></i> NO PRAZO</span>`;
 
         return `<tr>
-          <td style="font-weight: 800; color: var(--ml-blue)">${r.ROUTE_ID || '-'}</td>
+          <td style="font-weight: 800; color: var(--neon-blue); letter-spacing:0.5px; font-family:monospace; font-size:12px">${r.ROUTE_ID || '-'}</td>
           <td><span class="status-badge ${badgeClass}">${r[COLUNAS.status] || r.CASE_STATUS || '-'}</span></td>
           <td>${r.DATA_CRIACAO || '-'}</td>
-          <td style="font-size: 10px; font-weight: 800; color: #555">${r.REGIONAL || '-'}</td>
-          <td style="font-size: 10px; font-weight: 800; color: #555">${r.HUB || '-'}</td>
-          <td style="font-size: 10px; font-weight: 800; color: #555">${r[COLUNAS.ocorrencia] || r.CLOSE_DETAIL_MONITORING || '-'}</td>
+          <td style="font-size: 11px; font-weight: 800; color: var(--text-2); text-transform:uppercase;">${r.REGIONAL || '-'}</td>
+          <td style="font-size: 11px; font-weight: 800; color: var(--text-2); text-transform:uppercase;">${r.HUB || '-'}</td>
+          <td style="font-size: 11px; font-weight: 800; color: var(--text-2); text-transform:uppercase;">${r[COLUNAS.ocorrencia] || r.CLOSE_DETAIL_MONITORING || '-'}</td>
           <td>${sitHtml}</td>
         </tr>`;
       }).join('');
@@ -1243,28 +1299,28 @@
 
 
     // ===================================================================================
-    // INICIALIZAÇÃO GRÁFICOS
+    // INICIALIZAÇÃO GRÁFICOS (DARK MODE)
     // ===================================================================================
     function initCharts() {
       const baseTooltip = { enabled: false, external: () => {} };
-      const donutDataSet = { data: [1], backgroundColor:['transparent'], borderColor: 'transparent' };
+      const donutDataSet = { data: [1], backgroundColor:['transparent'], borderColor: 'transparent', hoverOffset: 4 };
 
       const donutOnClick = (evt, item, chart) => {
           if (!item || item.length === 0 || chart.data.datasets[0].backgroundColor[0] === 'transparent') return;
           const chartType = chart.canvas.id.split('-')[1];
           const map = { 'rotas': ['ANDAMENTO_TOTAL', 'FINALIZADO_TOTAL', 'PENDENTE', 'CANCELADO'], 'andamento': ['ANDAMENTO_PRAZO', 'ANDAMENTO_ATRASO'], 'finalizado': ['FINALIZADO_PRAZO', 'FINALIZADO_ATRASO'] };
           const filterKey = map[chartType]?.[item[0].index];
-          if(filterKey) openTableDetails(filterKey, "Filtro pelo Gráfico");
+          if(filterKey) openTableDetails(filterKey, "Consulta por Gráfico");
       };
 
-      const optDonut = (type) => ({ cutout: '80%', plugins: { legend: { display: false }, tooltip: baseTooltip, shadowPlugin: { shadowBlur: 16, shadowOffsetY: 10 } }, maintainAspectRatio: false, onClick: (e,i,c) => donutOnClick(e,i,c) });
+      const optDonut = (type) => ({ cutout: '82%', plugins: { legend: { display: false }, tooltip: baseTooltip, shadowPlugin: { shadowBlur: 20, shadowOffsetY: 10, shadowColor: 'rgba(0,0,0,0.8)' } }, maintainAspectRatio: false, onClick: (e,i,c) => donutOnClick(e,i,c) });
       
       const ctxTmp = document.createElement('canvas').getContext('2d');
       const gradientLine = ctxTmp.createLinearGradient(0, 0, 0, 300);
-      gradientLine.addColorStop(0, 'rgba(52, 131, 250, 0.30)');
-      gradientLine.addColorStop(1, 'rgba(52, 131, 250, 0)');
+      gradientLine.addColorStop(0, 'rgba(0, 225, 255, 0.2)');
+      gradientLine.addColorStop(1, 'rgba(0, 225, 255, 0)');
 
-      const optLine = { maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: {enabled:true, padding:12} }, scales: { y: { min: 0, max: 100, ticks: { callback: (val) => val + '%', color:'#94A3B8', font:{size:10, weight:'bold'} }, border:{dash:[5,5]}, grid: {color: '#F1F5F9'} }, x: { grid: { display: false }, ticks: { color:'#94A3B8', font:{size:10, weight:'bold'} } } }, elements: { line: { tension: 0.35, borderWidth: 3 }, point: { radius: 0, hitRadius: 10, hoverRadius: 6, backgroundColor:'#FFFFFF', borderColor:'#3483FA', borderWidth:2 } } };
+      const optLine = { maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: {enabled:true, padding:12, backgroundColor:'rgba(16,21,33,0.9)', borderColor:'rgba(255,255,255,0.1)', borderWidth:1} }, scales: { y: { min: 0, max: 100, ticks: { callback: (val) => val + '%', color:'#475569', font:{size:10, weight:'bold'} }, border:{display:false}, grid: {color: 'rgba(255,255,255,0.05)'} }, x: { grid: { display: false }, ticks: { color:'#475569', font:{size:10, weight:'bold'} } } }, elements: { line: { tension: 0.4, borderWidth: 3 }, point: { radius: 0, hitRadius: 10, hoverRadius: 6, backgroundColor:'#FFFFFF', borderColor:'#00E1FF', borderWidth:2 } } };
       
       const barOnClick = (evt, item) => {
           if (!item || item.length === 0) return;
@@ -1273,20 +1329,20 @@
           if(filterKey) openGerencialDetails(filterKey, `Volumetria: ${chartBarVolumetria.data.labels[item[0].index]}`);
       };
 
-      const optBar = { maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: {enabled:true, padding:12, backgroundColor: 'rgba(30, 41, 59, 0.9)', bodyFont: { weight: 'bold' } }, shadowPlugin: { shadowBlur: 14, shadowOffsetY: 8 } }, scales: { y: { beginAtZero: true, ticks: { color: '#94A3B8', font: { size: 10, weight: 'bold' } }, grid: { color: '#F1F5F9' }, border:{display:false} }, x: { ticks: { color: '#1E293B', font: { size: 10, weight: 'bold' } }, grid: { display: false } } }, onClick: barOnClick };
+      const optBar = { maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: {enabled:true, padding:12, backgroundColor: 'rgba(16, 21, 33, 0.95)', borderColor:'rgba(255,255,255,0.1)', borderWidth:1, bodyFont: { weight: 'bold' } } }, scales: { y: { beginAtZero: true, ticks: { color: '#475569', font: { size: 10, weight: 'bold' } }, grid: { color: 'rgba(255,255,255,0.05)' }, border:{display:false} }, x: { ticks: { color: '#94A3B8', font: { size: 10, weight: 'bold' } }, grid: { display: false } } }, onClick: barOnClick };
 
       chartRotas = new Chart(document.getElementById('c-rotas'), { type: 'doughnut', data: { datasets: [JSON.parse(JSON.stringify(donutDataSet))] }, options: optDonut('rotas') });
       chartAndamento = new Chart(document.getElementById('c-andamento'), { type: 'doughnut', data: { datasets: [JSON.parse(JSON.stringify(donutDataSet))] }, options: optDonut('andamento') });
       chartFinalizado = new Chart(document.getElementById('c-finalizado'), { type: 'doughnut', data: { datasets: [JSON.parse(JSON.stringify(donutDataSet))] }, options: optDonut('finalizado') });
-      chartLineGerencial = new Chart(document.getElementById('c-line-gerencial'), { type: 'line', data: { datasets: [{ backgroundColor: gradientLine, fill: true, borderColor: '#3483FA' }] }, options: optLine });
-      chartLineAporte = new Chart(document.getElementById('c-line-aporte'), { type: 'line', data: { datasets: [{ backgroundColor: gradientLine, fill: true, borderColor: '#3483FA' }] }, options: optLine });
-      chartBarVolumetria = new Chart(document.getElementById('c-bar-volumetria'), { type: 'bar', data: { labels: ['And. (Prazo)', 'And. (Atraso)', 'Fin. (Prazo)', 'Fin. (Atraso)'], datasets: [{ backgroundColor: [getGradient(ctxTmp, '#00A650'), getGradient(ctxTmp, '#F23D4F'), getGradient(ctxTmp, '#00A650'), getGradient(ctxTmp, '#F23D4F')], borderRadius: 8, barThickness: 50, borderWidth: 0 }] }, options: optBar });
+      chartLineGerencial = new Chart(document.getElementById('c-line-gerencial'), { type: 'line', data: { datasets: [{ backgroundColor: gradientLine, fill: true, borderColor: '#00E1FF' }] }, options: optLine });
+      chartLineAporte = new Chart(document.getElementById('c-line-aporte'), { type: 'line', data: { datasets: [{ backgroundColor: gradientLine, fill: true, borderColor: '#00E1FF' }] }, options: optLine });
+      chartBarVolumetria = new Chart(document.getElementById('c-bar-volumetria'), { type: 'bar', data: { labels: ['And. (Prazo)', 'And. (Atraso)', 'Fin. (Prazo)', 'Fin. (Atraso)'], datasets: [{ backgroundColor: [getGradient(ctxTmp, '#00FF88'), getGradient(ctxTmp, '#FF3366'), getGradient(ctxTmp, '#00FF88'), getGradient(ctxTmp, '#FF3366')], borderRadius: 8, barThickness: 45, borderWidth: 0 }] }, options: optBar });
     }
     
     function getGradient(ctx, color) {
         const gradient = ctx.createLinearGradient(0, 0, 0, 250);
-        gradient.addColorStop(0, color);
-        gradient.addColorStop(1, Chart.helpers.color(color).alpha(0.7).rgbString());
+        gradient.addColorStop(0, Chart.helpers.color(color).alpha(0.8).rgbString());
+        gradient.addColorStop(1, Chart.helpers.color(color).alpha(0.2).rgbString());
         return gradient;
     }
 
@@ -1299,12 +1355,14 @@
       let start = parseFloat(obj.innerText.replace(/\./g, '').replace(',', '.')) || 0;
       if (isNaN(start)) start = 0;
 
-      const duration = 1200;
+      const duration = 1500;
       let startTimestamp = null;
       const step = (timestamp) => {
         if (!startTimestamp) startTimestamp = timestamp;
         const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-        let currentValue = progress * (end - start) + start;
+        const easeOut = 1 - Math.pow(1 - progress, 3); // Cubic ease out
+        let currentValue = easeOut * (end - start) + start;
+        
         if (isFloat) {
           obj.innerHTML = currentValue.toFixed(2).replace('.', ',') + suffix;
         } else {
@@ -1319,10 +1377,10 @@
 
     function buildAtrasoBars(totalAtrasos, containerId, labelId, ocorrencias) {
       const container = document.getElementById(containerId);
-      document.getElementById(labelId).innerText = `${totalAtrasos} ROTAS`;
+      document.getElementById(labelId).innerText = `${totalAtrasos} REGISTROS`;
       
       if (totalAtrasos === 0) {
-        container.innerHTML = `<div class="empty-state" style="padding: 20px;"><i class="fa-solid fa-check-circle" style="color:var(--ml-green)"></i><span>Nenhum atraso registrado.</span></div>`;
+        container.innerHTML = `<div class="empty-state" style="padding: 20px;"><i class="fa-solid fa-satellite-dish" style="color:var(--neon-green)"></i><span>Nenhuma anomalia detectada.</span></div>`;
         return;
       }
 
@@ -1345,12 +1403,8 @@
 
     function triggerBarAnimations() {
         setTimeout(() => {
-            document.querySelectorAll('.fill[data-width]').forEach(el => {
-                el.style.width = el.getAttribute('data-width');
-            });
-            document.querySelectorAll('.wf-bar[data-height]').forEach(el => {
-                el.style.height = el.getAttribute('data-height');
-            });
+            document.querySelectorAll('.fill[data-width]').forEach(el => { el.style.width = el.getAttribute('data-width'); });
+            document.querySelectorAll('.wf-bar[data-height]').forEach(el => { el.style.height = el.getAttribute('data-height'); });
         }, 100);
     }
     
@@ -1366,10 +1420,9 @@
           tooltip.style.top = `${e.clientY}px`;
           ttTitle.innerText = el.dataset.title || '';
           ttVal.innerText = el.dataset.val || '';
+          if(el.dataset.val && el.dataset.val.includes('-')) { ttVal.style.color = 'var(--neon-red)'; } else { ttVal.style.color = 'var(--text-1)'; }
         });
-        el.addEventListener('mouseout', () => {
-          tooltip.classList.remove('show');
-        });
+        el.addEventListener('mouseout', () => { tooltip.classList.remove('show'); });
       });
     }
 
@@ -1404,7 +1457,7 @@
 
         const typing = document.createElement('div');
         typing.className = 'chat-bubble-bot';
-        typing.innerText = "Consultando a base de dados...";
+        typing.innerText = "Interrogando servidor...";
         chatMessages.appendChild(typing);
         chatMessages.scrollTop = chatMessages.scrollHeight;
 
@@ -1412,14 +1465,14 @@
             typing.remove();
             
             const upperMessage = message.toUpperCase();
-            let answer = "Comando não compreendido. Eu só posso responder a 'cálculo', 'tolerância' e 'status'.";
+            let answer = "Comando inválido. O terminal apenas aceita perguntas sobre 'cálculo', 'tolerância' ou 'status'.";
 
             if (upperMessage.includes("TOLERÂNCIA")) {
-                answer = "A tolerância de 21 minutos é um acordo operacional para absorver pequenos atrasos comuns, como trânsito leve ou pequenas demoras no carregamento, sem impactar a performance.";
+                answer = "A tolerância de 21 minutos atua como buffer logístico para absorver anomalias geográficas leves (trânsito, pátio) sem penalizar a performance da rede.";
             } else if (upperMessage.includes("CÁLCULO")) {
-                answer = "A performance é calculada pela fórmula: (Total de Viagens NO PRAZO) / (Total de Viagens Válidas) * 100. Viagens canceladas não entram no cálculo.";
+                answer = "Fórmula: (Rotas Concluídas NO PRAZO) / (Volume Total Válido) * 100. Missões canceladas são ejetadas do pool de análise.";
             } else if (upperMessage.includes("STATUS")) {
-                answer = `A base de dados atual contém ${CURRENT_BASE.totalRotas.toLocaleString('pt-BR')} rotas e a performance geral é de ${CURRENT_BASE.performance}.`;
+                answer = `A telemetria de rede captou ${CURRENT_BASE.totalRotas.toLocaleString('pt-BR')} rotas ativas. Rendimento global fixado em ${CURRENT_BASE.performance}.`;
             }
 
             const botBubble = document.createElement('div');
@@ -1427,7 +1480,7 @@
             botBubble.innerText = answer;
             chatMessages.appendChild(botBubble);
             chatMessages.scrollTop = chatMessages.scrollHeight;
-        }, 500);
+        }, 800);
     }
     
     let calViewDate = new Date(); let calStartDate = null; let calEndDate = null; let calSelectionStep = 0; let currentTabSelection = 'DIA';
@@ -1438,7 +1491,7 @@
     function selectTab(element, type) { document.querySelectorAll('.dp-tabs .dp-tab').forEach(t => t.classList.remove('active')); element.classList.add('active'); currentTabSelection = type; let now = new Date(); now.setHours(0,0,0,0); if(type === 'DIA') { calStartDate = now; calEndDate = now; } else if(type === 'SEMANA') { let d = now.getDay(); let diff = now.getDate() - d + (d == 0 ? -6:1); calStartDate = new Date(now.setDate(diff)); calEndDate = new Date(now.setDate(diff + 6)); } else if(type === 'MÊS') { calStartDate = new Date(now.getFullYear(), now.getMonth(), 1); calEndDate = new Date(now.getFullYear(), now.getMonth() + 1, 0); } else if(type === 'TRIMESTRE') { const quarter = Math.floor(now.getMonth() / 3); calStartDate = new Date(now.getFullYear(), quarter * 3, 1); calEndDate = new Date(now.getFullYear(), quarter * 3 + 3, 0); } else if(type === 'ANO') { calStartDate = new Date(now.getFullYear(), 0, 1); calEndDate = new Date(now.getFullYear(), 11, 31); } calViewDate = new Date(calStartDate); renderCalendar(); }
     function selectQuickBtn(element, type) { document.querySelectorAll('.dp-btn').forEach(btn => btn.classList.remove('active')); element.classList.add('active'); let now = new Date(); now.setHours(0,0,0,0); if (type === 'HOJE') { calStartDate = new Date(now); calEndDate = new Date(now); } else if (type === 'ONTEM') { let yest = new Date(now); yest.setDate(yest.getDate() - 1); calStartDate = yest; calEndDate = yest; } else if (type === 'ESTA SEMANA') { let d = now.getDay(); let diff = now.getDate() - d + (d == 0 ? -6:1); calStartDate = new Date(now.setDate(diff)); calEndDate = new Date(now.setDate(diff + 6)); } else if (type === 'ESTE MÊS') { calStartDate = new Date(now.getFullYear(), now.getMonth(), 1); calEndDate = new Date(now.getFullYear(), now.getMonth() + 1, 0); } calViewDate = new Date(calStartDate); calSelectionStep = 0; renderCalendar(); }
     function getSelectedDateRangeISO() { let s = calStartDate || new Date(); let e = calEndDate || calStartDate || new Date(); const toISO = (date) => new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().split("T")[0]; const startISO = `${toISO(s)}T00:00:00`; const endISO = `${toISO(e)}T23:59:59`; return { startISO, endISO }; }
-    function applyDateSettings(isInit = false) { let s = calStartDate || new Date(); let e = calEndDate || calStartDate || new Date(); let s_str = s.toLocaleDateString('pt-BR'); let e_str = e.toLocaleDateString('pt-BR'); let display = (s.getTime() === e.getTime()) ? s_str : `${s_str} - ${e_str}`; document.getElementById('dateDisplay').innerHTML = `<i class="fa-regular fa-calendar" style="color:var(--ml-blue); margin-right:8px; font-size:14px"></i> ${display} <span style="color:var(--border-light); margin:0 8px">|</span> ${currentTabSelection}`; if(!isInit) { closeAllModals(); fetchRealGoogleSheetData(); } document.getElementById('aporteDiaHdr').innerText = (s.getTime() === e.getTime()) ? s.toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit'}) : 'PERÍODO'; }
+    function applyDateSettings(isInit = false) { let s = calStartDate || new Date(); let e = calEndDate || calStartDate || new Date(); let s_str = s.toLocaleDateString('pt-BR'); let e_str = e.toLocaleDateString('pt-BR'); let display = (s.getTime() === e.getTime()) ? s_str : `${s_str} - ${e_str}`; document.getElementById('dateDisplay').innerHTML = `<i class="fa-solid fa-calendar-day" style="color:var(--ml-yellow); margin-right:8px; font-size:14px; text-shadow:0 0 10px var(--ml-yellow-glow)"></i> ${display} <span style="color:var(--text-4); margin:0 8px">|</span> ${currentTabSelection}`; if(!isInit) { closeAllModals(); fetchRealGoogleSheetData(); } document.getElementById('aporteDiaHdr').innerText = (s.getTime() === e.getTime()) ? s.toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit'}) : 'PERÍODO'; }
     function selectAno(element, ano) { document.getElementById('anoDisplay').innerText = ano; document.querySelectorAll('#anoDropdown .dropdown-item').forEach(item => item.classList.remove('active')); element.classList.add('active'); closeAllModals(); fetchRealGoogleSheetData(); }
   </script>
 </body>
