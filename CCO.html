@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FIRST MILE - Performance Premium</title>
+    <title>FIRST MILE - </title>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -57,7 +57,6 @@
         }
         
         body {
-            /* Efeito de Malha Topográfica/Radar no Fundo */
             background-image: radial-gradient(circle at 50% 0%, rgba(25, 35, 55, 0.6) 0%, transparent 60%), linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
             background-size: 100% 100%, 40px 40px, 40px 40px;
             background-position: center top;
@@ -1566,6 +1565,132 @@
             border-color: rgba(255, 255, 255, 0.1);
             transform: translateX(4px);
         }
+        /* === ESTILOS PARA A TABELA DE APORTE === */
+        
+        #table-aporte {
+            border-collapse: separate;
+            border-spacing: 0 16px;
+            width: 100%;
+        }
+        
+        #table-aporte thead th {
+            background: transparent;
+            border: none;
+            font-size: 10px;
+            color: var(--text-4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0 28px 8px 28px;
+        }
+        
+        #tabela-aporte-real tr {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-smooth);
+            outline: 1px solid var(--glass-border);
+            cursor: pointer;
+        }
+        
+        #tabela-aporte-real tr:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: var(--shadow-float);
+            outline-color: var(--neon-blue);
+            background: rgba(0, 225, 255, 0.05);
+            z-index: 5;
+            position: relative;
+        }
+        
+        #tabela-aporte-real td {
+            padding: 24px 28px;
+            border: none;
+            vertical-align: middle;
+        }
+        
+        #tabela-aporte-real td:first-child {
+            font-weight: 800;
+            font-size: 14px;
+            color: var(--text-2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        #tabela-aporte-real td:nth-child(2) {
+            text-align: center;
+            font-weight: 900;
+            font-size: 18px;
+            color: var(--text-1);
+            font-variant-numeric: tabular-nums;
+        }
+        
+        #tabela-aporte-real td:last-child {
+            text-align: center;
+            font-weight: 900;
+            font-size: 18px;
+            color: var(--neon-red);
+            font-variant-numeric: tabular-nums;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-shadow: 0 0 10px rgba(255, 51, 102, 0.3);
+        }
+        
+        #tabela-aporte-real td:last-child::before {
+            font-family: "Font Awesome 6 Free";
+            content: "\f071";
+            font-weight: 900;
+            opacity: 0.6;
+            font-size: 14px;
+        }
+        
+        #tabela-aporte-real tr.total-row {
+            background: rgba(255, 230, 0, 0.05);
+            outline: 1px solid rgba(255, 230, 0, 0.3);
+        }
+        
+        #tabela-aporte-real tr.total-row:hover {
+            box-shadow: 0 10px 30px rgba(255, 230, 0, 0.15);
+            outline-color: var(--ml-yellow);
+            background: rgba(255, 230, 0, 0.1);
+        }
+        
+        #tabela-aporte-real tr.total-row td:first-child {
+            color: var(--text-1);
+            font-weight: 900;
+        }
+        
+        #tabela-aporte-real tr.total-row td:nth-child(2) {
+            color: var(--ml-yellow);
+            text-shadow: 0 0 10px rgba(255, 230, 0, 0.3);
+        }
+        
+        #tabela-aporte-real tr.total-row td:last-child {
+            color: var(--ml-yellow);
+            text-shadow: 0 0 10px rgba(255, 230, 0, 0.3);
+        }
+        
+        #tabela-aporte-real tr.total-row td:last-child::before {
+            content: "\f0e7";
+            opacity: 1;
+        }
+        
+        #tabela-aporte-real tr.empty-row td {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-4);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        #tabela-aporte-real tr.empty-row:hover {
+            transform: none;
+            outline-color: var(--glass-border);
+            background: rgba(255, 255, 255, 0.02);
+            cursor: default;
+        }
     </style>
 </head>
 
@@ -1609,7 +1734,7 @@
 
     <header class="top-header">
         <div class="logo-area">
-            <h1>FIRST MILE • PERFORMANCE CCO</h1>
+            <h1>FIRST MILE • </h1>
             <p>
                 <div class="pulse-dot"></div> CCO CONTROLES OPERACIONAIS</p>
         </div>
@@ -1697,24 +1822,24 @@
                         <span class="card-label">VOLUME DE REDE</span>
                         <div class="huge-val" id="val-rotas-total">0</div>
                     </div>
-                    <div class="kpi-row">
+                    <div class="card-body" style="display:flex; align-items:center; gap:16px;">
                         <div class="kpi-chart-box"><canvas id="c-rotas"></canvas></div>
                         <ul class="kpi-list">
                             <li onclick="event.stopPropagation(); openTableDetails('ANDAMENTO_TOTAL', 'Rotas em Andamento')">
                                 <div class="kpi-list-label"><span class="dot" style="background:var(--neon-blue); box-shadow:0 0 10px var(--neon-blue);"></span> EM ROTA</div>
-                                <div class="kpi-list-values"><span id="val-and-count">0</span><span class="pct-label" id="val-and-pct">(0%)</span></div>
+                                <div class="kpi-list-values"><span id="val-and-count">0</span><span class="pct-label" id="val-and-pct">(0.0%)</span></div>
                             </li>
                             <li onclick="event.stopPropagation(); openTableDetails('FINALIZADO_TOTAL', 'Rotas Finalizadas')">
                                 <div class="kpi-list-label"><span class="dot" style="background:var(--neon-green); box-shadow:0 0 10px var(--neon-green);"></span> SUCESSO</div>
-                                <div class="kpi-list-values"><span id="val-fin-count">0</span><span class="pct-label" id="val-fin-pct">(0%)</span></div>
+                                <div class="kpi-list-values"><span id="val-fin-count">0</span><span class="pct-label" id="val-fin-pct">(0.0%)</span></div>
                             </li>
                             <li onclick="event.stopPropagation(); openTableDetails('PENDENTE', 'Rotas Pendentes')">
                                 <div class="kpi-list-label"><span class="dot" style="background:var(--text-4);"></span> PENDENTE</div>
-                                <div class="kpi-list-values"><span id="val-pen-count">0</span><span class="pct-label" id="val-pen-pct">(0%)</span></div>
+                                <div class="kpi-list-values"><span id="val-pen-count">0</span><span class="pct-label" id="val-pen-pct">(0.0%)</span></div>
                             </li>
                             <li onclick="event.stopPropagation(); openTableDetails('CANCELADO', 'Rotas Canceladas')">
                                 <div class="kpi-list-label"><span class="dot" style="background:var(--neon-amber); box-shadow:0 0 10px var(--neon-amber);"></span> CANCELADO</div>
-                                <div class="kpi-list-values"><span id="val-can-count">0</span><span class="pct-label" id="val-can-pct">(0%)</span></div>
+                                <div class="kpi-list-values"><span id="val-can-count">0</span><span class="pct-label" id="val-can-pct">(0.0%)</span></div>
                             </li>
                         </ul>
                     </div>
@@ -1749,16 +1874,16 @@
                         <span class="card-label">VEÍCULOS EM ROTA</span>
                         <div class="huge-val" id="val-and-big">0</div>
                     </div>
-                    <div class="kpi-row">
+                    <div class="card-body" style="display:flex; align-items:center; gap:16px;">
                         <div class="kpi-chart-box"><canvas id="c-andamento"></canvas></div>
                         <ul class="kpi-list">
                             <li onclick="event.stopPropagation(); openTableDetails('ANDAMENTO_PRAZO', 'Rotas em Andamento (NO PRAZO)')">
                                 <div class="kpi-list-label"><span class="dot" style="background:var(--neon-green); box-shadow:0 0 10px var(--neon-green);"></span> NO PRAZO</div>
-                                <div class="kpi-list-values"><span id="val-and-prazo-cnt">0</span><span class="pct-label" id="val-and-prazo-pct">(0%)</span></div>
+                                <div class="kpi-list-values"><span id="val-and-prazo-cnt">0</span><span class="pct-label" id="val-and-prazo-pct">(0.0%)</span></div>
                             </li>
                             <li onclick="event.stopPropagation(); openTableDetails('ANDAMENTO_ATRASO', 'Rotas em Andamento (ATRASADAS)')">
                                 <div class="kpi-list-label"><span class="dot" style="background:var(--neon-red); box-shadow:0 0 10px var(--neon-red);"></span> ATRASADO</div>
-                                <div class="kpi-list-values"><span style="color:var(--neon-red)" id="val-and-atraso-cnt">0</span><span class="pct-label" style="color:var(--neon-red); opacity:0.6;" id="val-and-atraso-pct">(0%)</span></div>
+                                <div class="kpi-list-values"><span style="color:var(--neon-red)" id="val-and-atraso-cnt">0</span><span class="pct-label" style="color:var(--neon-red); opacity:0.6;" id="val-and-atraso-pct">(0.0%)</span></div>
                             </li>
                         </ul>
                     </div>
@@ -1769,16 +1894,16 @@
                         <span class="card-label">MISSÕES CONCLUÍDAS</span>
                         <div class="huge-val" id="val-fin-big">0</div>
                     </div>
-                    <div class="kpi-row">
+                    <div class="card-body" style="display:flex; align-items:center; gap:16px;">
                         <div class="kpi-chart-box"><canvas id="c-finalizado"></canvas></div>
                         <ul class="kpi-list">
                             <li onclick="event.stopPropagation(); openTableDetails('FINALIZADO_PRAZO', 'Rotas Finalizadas (NO PRAZO)')">
                                 <div class="kpi-list-label"><span class="dot" style="background:var(--neon-green); box-shadow:0 0 10px var(--neon-green);"></span> NO PRAZO</div>
-                                <div class="kpi-list-values"><span id="val-fin-prazo-cnt">0</span><span class="pct-label" id="val-fin-prazo-pct">(0%)</span></div>
+                                <div class="kpi-list-values"><span id="val-fin-prazo-cnt">0</span><span class="pct-label" id="val-fin-prazo-pct">(0.0%)</span></div>
                             </li>
                             <li onclick="event.stopPropagation(); openTableDetails('FINALIZADO_ATRASO', 'Rotas Finalizadas (ATRASADAS)')">
                                 <div class="kpi-list-label"><span class="dot" style="background:var(--neon-red); box-shadow:0 0 10px var(--neon-red);"></span> ATRASADO</div>
-                                <div class="kpi-list-values"><span style="color:var(--neon-red)" id="val-fin-atraso-cnt">0</span><span class="pct-label" style="color:var(--neon-red); opacity:0.6;" id="val-fin-atraso-pct">(0%)</span></div>
+                                <div class="kpi-list-values"><span style="color:var(--neon-red)" id="val-fin-atraso-cnt">0</span><span class="pct-label" style="color:var(--neon-red); opacity:0.6;" id="val-fin-atraso-pct">(0.0%)</span></div>
                             </li>
                         </ul>
                     </div>
@@ -2017,7 +2142,7 @@
         // ===================================================================================
         const COLUNAS = {
             status: "CASE_STATUS",
-            atrasos: "Q_SHPS_COLLECTED_LATE_DM_S",
+            atrasos: "Q_SHPS_COLLECTED_LATE_DM",
             ocorrencia: "CLOSE_DETAIL_MONITORING"
         };
 
@@ -2168,7 +2293,7 @@
                     processServerResponse({
                         ok: true,
                         rows: mockData,
-                        headers: ["CASE_STATUS", "Q_SHPS_COLLECTED_LATE_DM_S", "CLOSE_DETAIL_MONITORING", "DATA_CRIACAO", "REGIONAL", "ROUTE_ID", "HUB"],
+                        headers: ["CASE_STATUS", "Q_SHPS_COLLECTED_LATE_DM", "CLOSE_DETAIL_MONITORING", "DATA_CRIACAO", "REGIONAL", "ROUTE_ID", "HUB"],
                         info: {
                             sheetName: "Mock Environment",
                             totalLido: mockData.length
@@ -2178,10 +2303,7 @@
                 return;
             }
 
-            const {
-                startISO,
-                endISO
-            } = getSelectedDateRangeISO();
+            // RETORNANDO A CHAMADA ORIGINAL EXATAMENTE COMO NO SEU CÓDIGO
             google.script.run
                 .withSuccessHandler(res => {
                     if (btnElement) {
@@ -2196,10 +2318,7 @@
                     console.error(err);
                     setStatus("err", "FALHA DE COMUNICAÇÃO (APPS SCRIPT).");
                 })
-                .getFirstMileData({
-                    start: startISO,
-                    end: endISO
-                });
+                .getFirstMileData();
         }
 
         function processServerResponse(res) {
@@ -2307,9 +2426,9 @@
             let andamentoRows = [];
 
             dataArray.forEach(row => {
-                let valStatus = String(row[COLUNAS.status] || "").toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-                let valAtrasadoNum = parseFloat(row[COLUNAS.atrasos]) || 0;
-                let valOcorrencia = String(row[COLUNAS.ocorrencia] || "").toUpperCase().trim();
+                let valStatus = String(row[COLUNAS.status] || row["CASE_STATUS"] || "").toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                let valAtrasadoNum = parseFloat(row[COLUNAS.atrasos] || row["Q_SHPS_COLLECTED_LATE_DM"] || row["Q_SHPS_COLLECTED_LATE_DM_S"]) || 0;
+                let valOcorrencia = String(row[COLUNAS.ocorrencia] || row["CLOSE_DETAIL_MONITORING"] || "").toUpperCase().trim();
 
                 if (containsAny(valStatus, DICIONARIO_PLANILHA.palavras_finalizado)) {
                     row._calcStatus = 'FINALIZADO';
@@ -2389,6 +2508,7 @@
             document.getElementById('val-fin-atraso-cnt').innerText = finA.toLocaleString('pt-BR');
             document.getElementById('val-fin-atraso-pct').innerText = `(${formatPct(finA, fin)}%)`;
 
+            // Cores em Neon Mode
             updateChartData(chartRotas, [and, fin, pen, can], ['#00E1FF', '#00FF88', '#475569', '#FFB000']);
             updateChartData(chartAndamento, [andP, andA], ['#00FF88', '#FF3366']);
             updateChartData(chartFinalizado, [finP, finA], ['#00FF88', '#FF3366']);
@@ -2497,6 +2617,10 @@
             document.getElementById('waterfall-area').innerHTML = wfHTML;
         }
 
+
+        // ===================================================================================
+        // TABELA DINÂMICA DE DETALHES (ACIONADA PELOS CLIQUES)
+        // ===================================================================================
         function openGerencialDetails(filterType, title) {
             switchTab('monitoramento', document.querySelector('.tab[onclick*="monitoramento"]'));
             setTimeout(() => {
@@ -2538,7 +2662,7 @@
                     const isAtrasado = r._calcPrazo === 'ATRASADO';
                     if (!isAtrasado) return false;
 
-                    let motivoRow = (String(r[COLUNAS.ocorrencia] || "").toUpperCase().trim() || "S/ DIAGNÓSTICO");
+                    let motivoRow = (String(r[COLUNAS.ocorrencia] || r["CLOSE_DETAIL_MONITORING"] || "").toUpperCase().trim() || "S/ DIAGNÓSTICO");
                     if (r._calcStatus === 'FINALIZADO' && (motivoRow === "S/ DIAGNÓSTICO" || motivoRow === '' || motivoRow === '-' || motivoRow === 'NULL')) {
                         motivoRow = "FALHA OPERACIONAL";
                     }
@@ -2620,6 +2744,10 @@
             document.getElementById('dynamic-details').classList.remove('active');
         }
 
+
+        // ===================================================================================
+        // INICIALIZAÇÃO GRÁFICOS (DARK MODE + FIX CORES)
+        // ===================================================================================
         function initCharts() {
             const baseTooltip = {
                 enabled: false,
@@ -2660,6 +2788,13 @@
                 maintainAspectRatio: false,
                 onClick: (e, i, c) => donutOnClick(e, i, c)
             });
+
+            const createLinearGrad = (ctx, r, g, b) => {
+                const gradient = ctx.createLinearGradient(0, 0, 0, 250);
+                gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, 0.8)`);
+                gradient.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0.2)`);
+                return gradient;
+            };
 
             const ctxTmp = document.createElement('canvas').getContext('2d');
             const gradientLine = ctxTmp.createLinearGradient(0, 0, 0, 300);
@@ -2833,7 +2968,7 @@
                 data: {
                     labels: ['And. (Prazo)', 'And. (Atraso)', 'Fin. (Prazo)', 'Fin. (Atraso)'],
                     datasets: [{
-                        backgroundColor: [getGradient(ctxTmp, '#00FF88'), getGradient(ctxTmp, '#FF3366'), getGradient(ctxTmp, '#00FF88'), getGradient(ctxTmp, '#FF3366')],
+                        backgroundColor: [createLinearGrad(ctxTmp, 0, 255, 136), createLinearGrad(ctxTmp, 255, 51, 102), createLinearGrad(ctxTmp, 0, 255, 136), createLinearGrad(ctxTmp, 255, 51, 102)],
                         borderRadius: 8,
                         barThickness: 45,
                         borderWidth: 0
@@ -2843,13 +2978,9 @@
             });
         }
 
-        function getGradient(ctx, color) {
-            const gradient = ctx.createLinearGradient(0, 0, 0, 250);
-            gradient.addColorStop(0, Chart.helpers.color(color).alpha(0.8).rgbString());
-            gradient.addColorStop(1, Chart.helpers.color(color).alpha(0.2).rgbString());
-            return gradient;
-        }
-
+        // ===================================================================================
+        // FUNÇÕES AUXILIARES E DE UI
+        // ===================================================================================
         function animateValue(id, end, suffix = "", isFloat = false) {
             const obj = document.getElementById(id);
             if (!obj) return;
