@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FIRST MILE - </title>
+    <title>FIRST MILE - Performance Premium</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -57,6 +57,7 @@
         }
         
         body {
+            /* Efeito de Malha Topográfica/Radar no Fundo */
             background-image: radial-gradient(circle at 50% 0%, rgba(25, 35, 55, 0.6) 0%, transparent 60%), linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
             background-size: 100% 100%, 40px 40px, 40px 40px;
             background-position: center top;
@@ -1337,7 +1338,9 @@
             z-index: 2000;
             border: 1px solid var(--glass-border);
             display: none;
+            animation: scaleUp 0.2s ease;
             transform-origin: top left;
+            cursor: default;
         }
         
         .date-picker-modal.show {
@@ -2142,7 +2145,7 @@
         // ===================================================================================
         const COLUNAS = {
             status: "CASE_STATUS",
-            atrasos: "Q_SHPS_COLLECTED_LATE_DM",
+            atrasos: "Q_SHPS_COLLECTED_LATE_DM_S",
             ocorrencia: "CLOSE_DETAIL_MONITORING"
         };
 
@@ -2293,7 +2296,7 @@
                     processServerResponse({
                         ok: true,
                         rows: mockData,
-                        headers: ["CASE_STATUS", "Q_SHPS_COLLECTED_LATE_DM", "CLOSE_DETAIL_MONITORING", "DATA_CRIACAO", "REGIONAL", "ROUTE_ID", "HUB"],
+                        headers: ["CASE_STATUS", "Q_SHPS_COLLECTED_LATE_DM_S", "CLOSE_DETAIL_MONITORING", "DATA_CRIACAO", "REGIONAL", "ROUTE_ID", "HUB"],
                         info: {
                             sheetName: "Mock Environment",
                             totalLido: mockData.length
@@ -2303,7 +2306,11 @@
                 return;
             }
 
-            // RETORNANDO A CHAMADA ORIGINAL EXATAMENTE COMO NO SEU CÓDIGO
+            // RETORNANDO A CHAMADA ORIGINAL EXATAMENTE COMO NO SEU CÓDIGO (Passando os parâmetros start e end)
+            const {
+                startISO,
+                endISO
+            } = getSelectedDateRangeISO();
             google.script.run
                 .withSuccessHandler(res => {
                     if (btnElement) {
@@ -2318,7 +2325,10 @@
                     console.error(err);
                     setStatus("err", "FALHA DE COMUNICAÇÃO (APPS SCRIPT).");
                 })
-                .getFirstMileData();
+                .getFirstMileData({
+                    start: startISO,
+                    end: endISO
+                });
         }
 
         function processServerResponse(res) {
@@ -2327,16 +2337,29 @@
                     setStatus("err", "PACKAGE NULL RECEBIDO.");
                     return;
                 }
-                if (res.ok === false) {
+
+                // Fallback forte: Funciona quer o script mande o wrapper {ok, rows} ou só o array direto
+                let dataRows = [];
+                let dataHeaders = [];
+                let sheetInfo = "Base Sincronizada";
+
+                if (Array.isArray(res)) {
+                    dataRows = res;
+                    if (dataRows.length > 0) dataHeaders = Object.keys(dataRows[0]);
+                } else if (res.ok !== false && res.rows) {
+                    dataRows = res.rows;
+                    dataHeaders = res.headers || (dataRows.length > 0 ? Object.keys(dataRows[0]) : []);
+                    sheetInfo = res.info ? res.info.sheetName : "Base Sincronizada";
+                } else {
                     setStatus("err", res.erro || "DATA ERROR NO SCRIPT.");
                     return;
                 }
 
-                globalDataArray = res.rows || [];
-                globalHeaders = res.headers || [];
+                globalDataArray = dataRows;
+                globalHeaders = dataHeaders;
 
-                document.getElementById("baseInfoLbl").innerText = `${res.info.sheetName} // ${res.info.totalLido} ROWS`;
-                setStatus("ok", `DADOS SINCRONIZADOS [${res.info.totalLido}]`);
+                document.getElementById("baseInfoLbl").innerText = `${sheetInfo} // ${dataRows.length} ROWS`;
+                setStatus("ok", `DADOS SINCRONIZADOS [${dataRows.length}]`);
 
                 // Relógio
                 const now = new Date();
